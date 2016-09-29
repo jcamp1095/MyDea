@@ -3,6 +3,7 @@ package com.tj.mydea;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -84,7 +85,9 @@ public class NaviActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_discover) {
-            startActivity(new Intent(NaviActivity.this, DiscoverActivity.class));
+            DiscoverFragment DiscoverFragment = new DiscoverFragment();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.layout_for_fragments, DiscoverFragment).commit();
         } else if (id == R.id.nav_myidea) {
             Toast.makeText(this, "Just a test", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_staridea) {
