@@ -4,18 +4,18 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_discover"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_view_list_black_48px"
             android:title="Discover" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:id="@+id/nav_myidea"
+            android:icon="@drawable/ic_shopping_basket_black_48px"
             android:title="My Ideas" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:id="@+id/nav_staridea"
+            android:icon="@drawable/ic_stars_black_48px"
             android:title="Starred Ideas" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_messages"
             android:icon="@drawable/ic_menu_manage"
             android:title="Messages" />
     </group>

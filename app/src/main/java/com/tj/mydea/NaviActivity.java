@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
+import android.widget.Toast;
 
 public class NaviActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -84,11 +85,11 @@ public class NaviActivity extends AppCompatActivity
 
         if (id == R.id.nav_discover) {
             startActivity(new Intent(NaviActivity.this, DiscoverActivity.class));
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_myidea) {
+            Toast.makeText(this, "Just a test", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_staridea) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_messages) {
 
         } else if (id == R.id.nav_share) {
 
