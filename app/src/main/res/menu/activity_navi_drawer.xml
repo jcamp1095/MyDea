@@ -18,6 +18,10 @@
             android:id="@+id/nav_messages"
             android:icon="@drawable/ic_menu_manage"
             android:title="Messages" />
+        <item
+            android:id="@+id/nav_login"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Login" />
     </group>
 
     <item android:title="Settings">

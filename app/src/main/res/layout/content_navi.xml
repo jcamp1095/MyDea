@@ -12,5 +12,11 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.tj.mydea.NaviActivity"
     tools:showIn="@layout/app_bar_navi">
-
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="194dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp" />
 </RelativeLayout>
