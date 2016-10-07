@@ -1,5 +1,6 @@
 package com.tj.mydea;
 
+import android.util.Log;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -27,6 +28,15 @@ public class NaviActivity extends AppCompatActivity
         setContentView(R.layout.activity_navi);
 
         Intent intent = getIntent();
+        Bundle b = intent.getExtras();
+        if (b != null) {
+            String user_id = (String) b.get("user_id");
+            Log.v("profile", user_id);
+            String user_name = (String) b.get("user_name");
+            Log.v("profile", user_name);
+            String email = (String) b.get("email");
+            Log.v("profile", email);
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

@@ -46,7 +46,6 @@ public class LoginActivity extends AppCompatActivity {
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        Log.v("LoginActivity!!!!!", "SUCCESSFUL LOGIN");
                         GraphRequest request = GraphRequest.newMeRequest(
                                 loginResult.getAccessToken(),
                                 new GraphRequest.GraphJSONObjectCallback() {
@@ -59,6 +58,11 @@ public class LoginActivity extends AppCompatActivity {
                                             object.remove("name");
                                             Log.v("LoginActivity", object.toString());
                                             postUser(object);
+                                            Intent intent = new Intent(LoginActivity.this, NaviActivity.class);
+                                            intent.putExtra("user_id", (String) object.get("user_id"));
+                                            intent.putExtra("user_name", (String) object.get("user_name"));
+                                            intent.putExtra("email", (String) object.get("email"));
+                                            startActivity(intent);
                                         }
                                         catch (JSONException e) {Log.v("LoginActivity", e.toString());}
                                     }
@@ -67,8 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                         parameters.putString("fields", "id,name,email");
                         request.setParameters(parameters);
                         request.executeAsync();
-                        Intent intent = new Intent(LoginActivity.this, NaviActivity.class);
-                        startActivity(intent);
+
                     }
 
                     @Override
@@ -100,6 +103,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
                     wr.write(object.toString());
+                    Log.v("POSTING", object.toString());
                     wr.flush();
 
                     if (conn.getResponseCode() != 200) {
