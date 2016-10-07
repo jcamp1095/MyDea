@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.Toast;
 import android.widget.EditText;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -34,7 +35,38 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getApplicationContext());
+        FacebookSdk.sdkInitialize(getApplicationContext(), new FacebookSdk.InitializeCallback() {
+            @Override
+            public void onInitialized() {
+                if(AccessToken.getCurrentAccessToken() != null) {
+                    GraphRequest request = GraphRequest.newMeRequest(
+                            AccessToken.getCurrentAccessToken(),
+                            new GraphRequest.GraphJSONObjectCallback() {
+                                @Override
+                                public void onCompleted(JSONObject object, GraphResponse response) {
+                                    try {
+                                        object.put("user_id", object.get("id"));
+                                        object.remove("id");
+                                        object.put("user_name", object.get("name"));
+                                        object.remove("name");
+                                        Log.v("LoginActivity", object.toString());
+                                        postUser(object);
+                                        Intent intent = new Intent(LoginActivity.this, NaviActivity.class);
+                                        intent.putExtra("user_id", (String) object.get("user_id"));
+                                        intent.putExtra("user_name", (String) object.get("user_name"));
+                                        intent.putExtra("email", (String) object.get("email"));
+                                        startActivity(intent);
+                                    }
+                                    catch (JSONException e) {Log.v("LoginActivity", e.toString());}
+                                }
+                            });
+                    Bundle parameters = new Bundle();
+                    parameters.putString("fields", "id,name,email");
+                    request.setParameters(parameters);
+                    request.executeAsync();
+                } else {Log.v("WARNING", "!!!!!");}
+            }
+        });
 
         setContentView(R.layout.activity_login);
 
