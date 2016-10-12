@@ -7,9 +7,9 @@
             android:icon="@drawable/ic_view_list_black_48px"
             android:title="Discover" />
         <item
-            android:id="@+id/nav_myidea"
+            android:id="@+id/nav_shareidea"
             android:icon="@drawable/ic_shopping_basket_black_48px"
-            android:title="My Ideas" />
+            android:title="Share Idea" />
         <item
             android:id="@+id/nav_staridea"
             android:icon="@drawable/ic_stars_black_48px"
