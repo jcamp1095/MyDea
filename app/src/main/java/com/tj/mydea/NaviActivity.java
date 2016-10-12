@@ -3,7 +3,6 @@ package com.tj.mydea;
 import android.util.Log;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -18,13 +17,16 @@ import android.content.Intent;
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.widget.EditText;
+import android.widget.TextView;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import android.widget.Toast;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Handler;
 import com.facebook.CallbackManager;
 
 
@@ -34,6 +36,19 @@ public class NaviActivity extends AppCompatActivity
     String user_id = "";
     String user_name = "";
     String email = "";
+    //String imageURI = "";
+
+    private final Runnable mUpdateUITimerTask = new Runnable() {
+        public void run() {
+            TextView nav_username = (TextView) findViewById(R.id.nav_username);
+            TextView nav_email = (TextView) findViewById(R.id.nav_email);
+            nav_username.setText(user_name);
+            nav_email.setText(email);
+
+        }
+    };
+    private final Handler mHandler = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,10 +62,12 @@ public class NaviActivity extends AppCompatActivity
             user_name = (String) b.get("user_name");
             Log.v("profile", user_name);
             email = (String) b.get("email");
+           // imageURI = (String) b.get("imageURI");
             Log.v("profile", email);
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         FloatingActionButton send_data = (FloatingActionButton) findViewById(R.id.send_data);
         send_data.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +100,8 @@ public class NaviActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        mHandler.postDelayed(mUpdateUITimerTask, 2 * 1000);
+
     }
 
     /*@Override
@@ -90,6 +109,7 @@ public class NaviActivity extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }*/
+
 
     @Override
     public void onBackPressed() {
