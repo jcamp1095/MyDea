@@ -43,9 +43,9 @@ import java.util.Collections;
 import 	java.util.concurrent.ExecutionException;
 
 public class DiscoverFragment extends Fragment {
-    private String[] ideaNames = {"Harambe", "Pepe"};
-    private String[] descriptions = {"D**** Out", "The real pepe"};
-    private String[] authors = {"Tommy", "Joe"};
+    private String[] ideaNames = {"hello"};
+    private String[] descriptions = {"hello"};
+    private String[] authors = {"hello"};
     private ArrayList<Idea> ideas;
     private RecyclerView discoverRecyclerView;
     private ideaAdapter adapter;
@@ -62,15 +62,9 @@ public class DiscoverFragment extends Fragment {
         JSONArray ideasObj = null;
         try {
             ideasObj = new GetIdeas().execute("https://mydea-db.herokuapp.com/ideas").get();
-            /*for (int i = 0; i < ideasObj.length(); i++) {
-                try
-                JSONObject jsonobject = ideasObj.getJSONObject(i);
-                String name = jsonobject.getString("name");
-                String url = jsonobject.getString("url");
-            }*/
         }
-        catch (ExecutionException | InterruptedException ei) {
-            ei.printStackTrace();
+        catch (ExecutionException | InterruptedException ex) {
+            ex.printStackTrace();
         }
         ideas = new ArrayList<>();
         for (int i = 0; i < ideaNames.length; i++) {
@@ -251,6 +245,21 @@ public class DiscoverFragment extends Fragment {
         }
         protected void onPostExecute(JSONArray result) {
             Log.v("test", result.toString());
+            try {
+                for (int i = 0; i < result.size(); i++) {
+                    JSONObject jsonobject = result.getJSONObject(i);
+                    Log.v("ada", jsonobject.toString());
+                    String idea_name = jsonobject.getString("idea_name");
+                    String description = jsonobject.getString("description");
+                    String user_name = jsonobject.getString("user_name");
+                    ideaNames[i] = idea_name;
+                    descriptions[i] = description;
+                    authors[i] = user_name;
+                }
+            }
+            catch (JSONException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 }
