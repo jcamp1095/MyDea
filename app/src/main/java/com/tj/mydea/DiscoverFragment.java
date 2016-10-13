@@ -59,9 +59,15 @@ public class DiscoverFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        JSONObject ideasObj = null;
+        JSONArray ideasObj = null;
         try {
             ideasObj = new GetIdeas().execute("https://mydea-db.herokuapp.com/ideas").get();
+            /*for (int i = 0; i < ideasObj.length(); i++) {
+                try
+                JSONObject jsonobject = ideasObj.getJSONObject(i);
+                String name = jsonobject.getString("name");
+                String url = jsonobject.getString("url");
+            }*/
         }
         catch (ExecutionException | InterruptedException ei) {
             ei.printStackTrace();
@@ -180,7 +186,7 @@ public class DiscoverFragment extends Fragment {
         // TODO: Update argument type and name
         void onListFragmentInteraction(DummyItem item);
     }*/
-    public static JSONObject requestWebService(String serviceUrl) {
+    public static JSONArray requestWebService(String serviceUrl) {
         disableConnectionReuseIfNecessary();
 
         HttpURLConnection urlConnection = null;
@@ -203,7 +209,7 @@ public class DiscoverFragment extends Fragment {
                     urlConnection.getInputStream());
             String response =  getResponseText(in);
             Log.v("test", response);
-            return new JSONObject(response);
+            return new JSONArray(response);
             //return new JSONObject(getResponseText(in));
 
         } catch (MalformedURLException e) {
@@ -239,11 +245,11 @@ public class DiscoverFragment extends Fragment {
         return new Scanner(inStream).useDelimiter("\\A").next();
     }
 
-    public class GetIdeas extends AsyncTask<String, Void, JSONObject> {
-        protected JSONObject doInBackground(String... strings) {
+    public class GetIdeas extends AsyncTask<String, Void, JSONArray> {
+        protected JSONArray doInBackground(String... strings) {
             return requestWebService(strings[0]);
         }
-        protected void onPostExecute(JSONObject result) {
+        protected void onPostExecute(JSONArray result) {
             Log.v("test", result.toString());
         }
     }
