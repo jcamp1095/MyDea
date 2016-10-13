@@ -122,10 +122,19 @@ public class NaviActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        /*DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            super.onBackPressed();
+        }*/
+        FragmentManager fm = getSupportFragmentManager();
+        Log.v("fragment", Integer.toString(fm.getBackStackEntryCount()));
+        if (fm.getBackStackEntryCount() > 0) {
+            Log.i("MainActivity", "popping backstack");
+            fm.popBackStack();
+        } else {
+            Log.i("MainActivity", "nothing on backstack, calling super");
             super.onBackPressed();
         }
     }
@@ -161,12 +170,12 @@ public class NaviActivity extends AppCompatActivity
         if (id == R.id.nav_discover) {
             DiscoverFragment DiscoverFragment = new DiscoverFragment();
             FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().replace(R.id.layout_for_fragments, DiscoverFragment).commit();
+            manager.beginTransaction().replace(R.id.layout_for_fragments, DiscoverFragment).addToBackStack(null).commit();
         } else if (id == R.id.nav_shareidea) {
             Log.v("asd","GOT HERE");
             InputFragment InputFragment = new InputFragment();
             FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().replace(R.id.layout_for_fragments, InputFragment).commit();
+            manager.beginTransaction().replace(R.id.layout_for_fragments, InputFragment).addToBackStack(null).commit();
         } else if (id == R.id.nav_staridea) {
 
         } else if (id == R.id.nav_messages) {
