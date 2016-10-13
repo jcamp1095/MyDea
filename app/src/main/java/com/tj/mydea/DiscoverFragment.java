@@ -2,6 +2,7 @@ package com.tj.mydea;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Build;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +21,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Scanner;
+import android.os.StrictMode;
+
+import android.content.Context;
+import android.os.AsyncTask;
+import android.util.Log;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.BufferedInputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import 	java.util.concurrent.ExecutionException;
 
 public class DiscoverFragment extends Fragment {
     private String[] ideaNames = {"Harambe", "Pepe"};
@@ -28,6 +49,7 @@ public class DiscoverFragment extends Fragment {
     private ArrayList<Idea> ideas;
     private RecyclerView discoverRecyclerView;
     private ideaAdapter adapter;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -37,9 +59,15 @@ public class DiscoverFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        JSONObject ideasObj = null;
+        try {
+            ideasObj = new GetIdeas().execute("https://mydea-db.herokuapp.com/ideas").get();
+        }
+        catch (ExecutionException | InterruptedException ei) {
+            ei.printStackTrace();
+        }
         ideas = new ArrayList<>();
-        for(int i = 0; i < ideaNames.length; i++)
-        {
+        for (int i = 0; i < ideaNames.length; i++) {
             Idea idea = new Idea();
             idea.setideaName(ideaNames[i]);
             idea.setauthor(authors[i]);
@@ -61,16 +89,19 @@ public class DiscoverFragment extends Fragment {
         updateUI();
         return view;
     }
-    private void updateUI(){
+
+    private void updateUI() {
         adapter = new ideaAdapter(ideas);
         discoverRecyclerView.setAdapter(adapter);
     }
-    private class ideaHolder extends RecyclerView.ViewHolder{
+
+    private class ideaHolder extends RecyclerView.ViewHolder {
         private Idea idea;
         public TextView authorTextView;
         public TextView ideaNameTextView;
         public TextView descriptionTextView;
-        public ideaHolder(View itemView){
+
+        public ideaHolder(View itemView) {
             super(itemView);
             authorTextView = (TextView) itemView.findViewById(R.id.textview_author);
             ideaNameTextView = (TextView) itemView.findViewById(R.id.textview_ideaName);
@@ -83,29 +114,35 @@ public class DiscoverFragment extends Fragment {
                 }
             });
         }
-        public void bindData(Idea id){
+
+        public void bindData(Idea id) {
             idea = id;
             authorTextView.setText(id.getauthor());
             ideaNameTextView.setText(id.getideaName());
             descriptionTextView.setText(id.getdescription());
         }
     }
-    private class ideaAdapter extends RecyclerView.Adapter<ideaHolder>{
+
+    private class ideaAdapter extends RecyclerView.Adapter<ideaHolder> {
         private ArrayList<Idea> mideas;
-        public ideaAdapter(ArrayList<Idea> ideas){
+
+        public ideaAdapter(ArrayList<Idea> ideas) {
             mideas = ideas;
         }
+
         @Override
         public ideaHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            View view = layoutInflater.inflate(R.layout.discover_list_item_1,parent,false);
+            View view = layoutInflater.inflate(R.layout.discover_list_item_1, parent, false);
             return new ideaHolder(view);
         }
+
         @Override
         public void onBindViewHolder(ideaHolder holder, int position) {
             Idea id = mideas.get(position);
             holder.bindData(id);
         }
+
         @Override
         public int getItemCount() {
             return mideas.size();
@@ -142,4 +179,71 @@ public class DiscoverFragment extends Fragment {
         // TODO: Update argument type and name
         void onListFragmentInteraction(DummyItem item);
     }*/
+    public static JSONObject requestWebService(String serviceUrl) {
+        disableConnectionReuseIfNecessary();
+
+        HttpURLConnection urlConnection = null;
+        try {
+            // create connection
+            URL urlToRequest = new URL(serviceUrl);
+            urlConnection = (HttpURLConnection)
+                    urlToRequest.openConnection();
+            urlConnection.setConnectTimeout(5000);
+            urlConnection.setReadTimeout(5000);
+
+
+            if (urlConnection.getResponseCode() != 200) {
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + urlConnection.getResponseCode());
+            }
+
+            // create JSON object from content
+            InputStream in = new BufferedInputStream(
+                    urlConnection.getInputStream());
+            String response =  getResponseText(in);
+            Log.v("test", response);
+            return new JSONObject(response);
+            //return new JSONObject(getResponseText(in));
+
+        } catch (MalformedURLException e) {
+            // URL is invalid
+        } catch (IOException e) {
+            // could not read response body
+            // (could not create input stream)
+        } catch (JSONException e) {
+            // response body is no valid JSON string
+        } finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * required in order to prevent issues in earlier Android version.
+     */
+    private static void disableConnectionReuseIfNecessary() {
+        // see HttpURLConnection API doc
+        if (Integer.parseInt(Build.VERSION.SDK)
+                < Build.VERSION_CODES.FROYO) {
+            System.setProperty("http.keepAlive", "false");
+        }
+    }
+
+    private static String getResponseText(InputStream inStream) {
+        // very nice trick from
+        // http://weblogs.java.net/blog/pat/archive/2004/10/stupid_scanner_1.html
+        return new Scanner(inStream).useDelimiter("\\A").next();
+    }
+
+    public class GetIdeas extends AsyncTask<String, Void, JSONObject> {
+        protected JSONObject doInBackground(String... strings) {
+            return requestWebService(strings[0]);
+        }
+        protected void onPostExecute(JSONObject result) {
+            Log.v("test", result.toString());
+        }
+    }
 }
