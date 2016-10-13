@@ -18,12 +18,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
@@ -53,7 +55,6 @@ public class NaviActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navi);
-
         Intent intent = getIntent();
         Bundle b = intent.getExtras();
         if (b != null) {
@@ -87,8 +88,15 @@ public class NaviActivity extends AppCompatActivity
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                title.setText("");
+                description.setText("");
 
+                Context context = getApplicationContext();
+                CharSequence text = "Idea Sent!";
+                int duration = Toast.LENGTH_SHORT;
 
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
             }
         });
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
