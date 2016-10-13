@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.content.Intent;
 import android.widget.Toast;
 import com.facebook.CallbackManager;
+import android.support.v4.app.Fragment;
 
 
 public class NaviActivity extends AppCompatActivity
@@ -104,9 +105,14 @@ public class NaviActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_discover) {
-            DiscoverFragment DiscoverFragment = new DiscoverFragment();
+            //DiscoverFragment DiscoverFragment = new DiscoverFragment();
             FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().replace(R.id.layout_for_fragments, DiscoverFragment).commit();
+            //manager.beginTransaction().replace(R.id.layout_for_fragments, DiscoverFragment).commit();
+            Fragment fragment = manager.findFragmentById(R.id.layout_for_fragments);
+            if (fragment == null) {
+                fragment = new DiscoverFragment();
+                manager.beginTransaction().add(R.id.layout_for_fragments, fragment).commit();
+            }
         } else if (id == R.id.nav_myidea) {
             Toast.makeText(this, "Just a test", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_staridea) {
