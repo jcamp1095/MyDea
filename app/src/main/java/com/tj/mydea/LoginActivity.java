@@ -54,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
                                         intent.putExtra("user_id", (String) object.get("user_id"));
                                         intent.putExtra("user_name", (String) object.get("user_name"));
                                         intent.putExtra("email", (String) object.get("email"));
+                                       // intent.putExtra("imageURI", object.getJSONObject("picture").getJSONObject("data").getString("url"));
                                         startActivity(intent);
                                     }
                                     catch (JSONException e) {Log.v("LoginActivity", e.toString());}
