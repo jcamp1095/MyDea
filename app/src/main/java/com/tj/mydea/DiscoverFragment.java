@@ -38,15 +38,19 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import 	java.util.concurrent.ExecutionException;
 
 public class DiscoverFragment extends Fragment {
-    private String[] ideaNames = {"hello"};
+    private List<String> ideaNames = new ArrayList<String>();
+    private List<String> descriptions = new ArrayList<String>();
+    private List<String> authors = new ArrayList<String>();
+    /*private String[] ideaNames = {"hello"};
     private String[] descriptions = {"hello"};
-    private String[] authors = {"hello"};
-    private ArrayList<Idea> ideas;
+    private String[] authors = {"hello"};*/
+    private ArrayList<Idea> ideas = new ArrayList<>();
     private RecyclerView discoverRecyclerView;
     private ideaAdapter adapter;
 
@@ -66,14 +70,7 @@ public class DiscoverFragment extends Fragment {
         catch (ExecutionException | InterruptedException ex) {
             ex.printStackTrace();
         }
-        ideas = new ArrayList<>();
-        for (int i = 0; i < ideaNames.length; i++) {
-            Idea idea = new Idea();
-            idea.setideaName(ideaNames[i]);
-            idea.setauthor(authors[i]);
-            idea.setdescription(descriptions[i]);
-            ideas.add(idea);
-        }
+
         super.onCreate(savedInstanceState);
     }
 
@@ -87,7 +84,7 @@ public class DiscoverFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         discoverRecyclerView.setLayoutManager(layoutManager);
         discoverRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(getResources()));
-        updateUI();
+        //updateUI();
         return view;
     }
 
@@ -239,23 +236,45 @@ public class DiscoverFragment extends Fragment {
         return new Scanner(inStream).useDelimiter("\\A").next();
     }
 
+    private static int get_num_objects(JSONArray result){
+        String result_str = result.toString();
+        int counter = 0;
+        for (int i = 0; i < result_str.length(); i++){
+            if (result_str.charAt(i) == '{') {
+                counter += 1;
+            }
+        }
+
+        return counter;
+    }
+
     public class GetIdeas extends AsyncTask<String, Void, JSONArray> {
         protected JSONArray doInBackground(String... strings) {
             return requestWebService(strings[0]);
         }
         protected void onPostExecute(JSONArray result) {
             Log.v("test", result.toString());
+            int num_entries = get_num_objects(result);
             try {
-                for (int i = 0; i < result.size(); i++) {
+                for (int i = 0; i < num_entries; i++) {
                     JSONObject jsonobject = result.getJSONObject(i);
-                    Log.v("ada", jsonobject.toString());
                     String idea_name = jsonobject.getString("idea_name");
                     String description = jsonobject.getString("description");
                     String user_name = jsonobject.getString("user_name");
-                    ideaNames[i] = idea_name;
-                    descriptions[i] = description;
-                    authors[i] = user_name;
+                    ideaNames.add(idea_name);
+                    descriptions.add(description);
+                    authors.add(user_name);
                 }
+
+                for (int i = 0; i < ideaNames.size(); i++) {
+                    Idea idea = new Idea();
+                    idea.setideaName(ideaNames.get(i));
+                    idea.setauthor(authors.get(i));
+                    idea.setdescription(descriptions.get(i));
+                    ideas.add(idea);
+                }
+
+                updateUI();
             }
             catch (JSONException ex) {
                 ex.printStackTrace();
