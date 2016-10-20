@@ -1,5 +1,6 @@
 package com.tj.mydea;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 
 /**
@@ -22,6 +24,8 @@ public class InputFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    Context thiscontext;
+    View thisview;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -64,7 +68,9 @@ public class InputFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_input, container, false);
+        thiscontext = container.getContext();
+        thisview = inflater.inflate(R.layout.fragment_input, container, false);
+        return thisview;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -104,5 +110,10 @@ public class InputFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    // TODO: TO call this, write hideKayboardFrom(thiscontext, thisview); on click submit
+    public static void hideKeyboardFrom(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
