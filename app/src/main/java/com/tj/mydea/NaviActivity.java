@@ -63,7 +63,9 @@ public class NaviActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         mHandler.postDelayed(mUpdateUITimerTask, 2 * 1000);
-
+        DiscoverFragment DiscoverFragment = new DiscoverFragment();
+        FragmentManager manager = getSupportFragmentManager();
+        manager.beginTransaction().replace(R.id.layout_for_fragments, DiscoverFragment).addToBackStack(null).commit();
     }
 
     /*@Override
@@ -133,8 +135,10 @@ public class NaviActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_messages) {
 
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_login) {
+            Intent intent = new Intent(NaviActivity.this, LoginActivity.class);
+            intent.putExtra("manual", true);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -31,13 +31,21 @@ public class LoginActivity extends AppCompatActivity {
 
     private CallbackManager callbackManager;
     LoginButton loginButton;
+
+    Boolean manual = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        Bundle b = intent.getExtras();
+        if (b != null) {
+            manual = (Boolean) b.get("manual");
+        }
         FacebookSdk.sdkInitialize(getApplicationContext(), new FacebookSdk.InitializeCallback() {
             @Override
             public void onInitialized() {
-                if(AccessToken.getCurrentAccessToken() != null) {
+                if(AccessToken.getCurrentAccessToken() != null && manual == false) {
                     GraphRequest request = GraphRequest.newMeRequest(
                             AccessToken.getCurrentAccessToken(),
                             new GraphRequest.GraphJSONObjectCallback() {
