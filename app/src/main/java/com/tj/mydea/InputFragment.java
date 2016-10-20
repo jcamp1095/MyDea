@@ -5,10 +5,26 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 /**
@@ -19,7 +35,7 @@ import android.view.inputmethod.InputMethodManager;
  * Use the {@link InputFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class InputFragment extends Fragment {
+public class InputFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -70,14 +86,93 @@ public class InputFragment extends Fragment {
         // Inflate the layout for this fragment
         thiscontext = container.getContext();
         thisview = inflater.inflate(R.layout.fragment_input, container, false);
+        Button send_data = (Button) thisview.findViewById(R.id.send_idea_button);
+        send_data.setOnClickListener(this);
         return thisview;
     }
+
+    @Override
+    public void onClick(View v) {
+        EditText title = (EditText)getView().findViewById(R.id.editTitle);
+        EditText description = (EditText)getView().findViewById(R.id.editDescription);
+        String title_str = title.getText().toString();
+        String description_str = description.getText().toString();
+
+        NaviActivity activity = (NaviActivity) getActivity();
+        String user_id = activity.get_user_id();
+        String user_name = activity.get_user_name();
+
+        JSONObject object = new JSONObject();
+        try {
+            object.put("idea_name", title_str);
+            object.put("description", description_str);
+            object.put("user_id", user_id);
+            object.put("user_name", user_name);
+            postIdea(object);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        title.setText("");
+        description.setText("");
+
+        Context context = getApplicationContext();
+        CharSequence text = "Idea Sent!";
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    public void postIdea(final JSONObject object) {
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    String query = "https://mydea-db.herokuapp.com/sendIdea";
+
+                    URL url = new URL(query);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setConnectTimeout(5000);
+                    conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+                    conn.setRequestMethod("POST");
+
+                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                    wr.write(object.toString());
+                    Log.v("POSTING", object.toString());
+                    wr.flush();
+
+                    if (conn.getResponseCode() != 200) {
+                        throw new RuntimeException("Failed : HTTP error code : "
+                                + conn.getResponseCode());
+                    }
+
+                    BufferedReader br = new BufferedReader(new InputStreamReader(
+                            (conn.getInputStream())));
+
+                    String output;
+                    System.out.println("Output from Server .... \n");
+                    while ((output = br.readLine()) != null) {
+                        System.out.println(output);
+                    }
+
+                    conn.disconnect();
+
+                }
+                catch (IOException e) {
+                    Log.v("LoginActivity", e.toString());}
+            }
+        });
+
+        t.start();
     }
 
     /*@Override

@@ -1,36 +1,19 @@
 package com.tj.mydea;
 
-import android.util.Log;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentManager;
-import android.view.View;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.content.Intent;
-import org.json.JSONException;
-import org.json.JSONObject;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Handler;
-import com.facebook.CallbackManager;
-import android.support.v4.app.Fragment;
 
 
 
@@ -70,36 +53,6 @@ public class NaviActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        FloatingActionButton send_data = (FloatingActionButton) findViewById(R.id.send_data);
-        send_data.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditText title = (EditText)findViewById(R.id.editTitle);
-                EditText description = (EditText)findViewById(R.id.editDescription);
-                String title_str = title.getText().toString();
-                String description_str = description.getText().toString();
-                JSONObject object = new JSONObject();
-                try {
-                    object.put("idea_name", title_str);
-                    object.put("description", description_str);
-                    object.put("user_id", user_id);
-                    object.put("user_name", user_name);
-                    postIdea(object);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                title.setText("");
-                description.setText("");
-
-                Context context = getApplicationContext();
-                CharSequence text = "Idea Sent!";
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-            }
-        });
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -189,47 +142,11 @@ public class NaviActivity extends AppCompatActivity
         return true;
     }
 
-    public void postIdea(final JSONObject object) {
-        Thread t = new Thread(new Runnable() {
-            public void run() {
-                try {
-                    String query = "https://mydea-db.herokuapp.com/sendIdea";
+    public String get_user_id() {
+        return user_id;
+    }
 
-                    URL url = new URL(query);
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setConnectTimeout(5000);
-                    conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-                    conn.setDoOutput(true);
-                    conn.setDoInput(true);
-                    conn.setRequestMethod("POST");
-
-                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-                    wr.write(object.toString());
-                    Log.v("POSTING", object.toString());
-                    wr.flush();
-
-                    if (conn.getResponseCode() != 200) {
-                        throw new RuntimeException("Failed : HTTP error code : "
-                                + conn.getResponseCode());
-                    }
-
-                    BufferedReader br = new BufferedReader(new InputStreamReader(
-                            (conn.getInputStream())));
-
-                    String output;
-                    System.out.println("Output from Server .... \n");
-                    while ((output = br.readLine()) != null) {
-                        System.out.println(output);
-                    }
-
-                    conn.disconnect();
-
-                }
-                catch (IOException e) {
-                    Log.v("LoginActivity", e.toString());}
-            }
-        });
-
-        t.start();
+    public String get_user_name() {
+        return user_name;
     }
 }
