@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="fill_parent"
     android:layout_width="fill_parent"
     android:orientation="vertical"
@@ -6,13 +6,23 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_text"
+        android:id="@+id/send_idea_button"
+        android:layout_alignParentRight="true"/>
+
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:hint="Name Your Idea..."
         android:ems="10"
-        android:id="@+id/editTitle" />
+        android:id="@+id/editTitle"
+        android:layout_below="@+id/send_idea_button"
+        />
 
     <EditText
         android:inputType="textMultiLine"
@@ -23,8 +33,28 @@
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
         android:scrollbars="vertical"
+        android:layout_below="@+id/editTitle"
         android:hint="Enter Description..."
-        android:id="@+id/editDescription"/>
+        android:id="@+id/editDescription" />
+
+    <TextView
+        android:text="Send Your Idea!"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/send_idea_title"
+        android:textAppearance="@style/TextAppearance.Design.Tab"
+        android:textSize="24sp"
+        android:layout_alignBaseline="@+id/send_idea_button"
+        android:layout_alignBottom="@+id/send_idea_button"
+        android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editDescription"
+        android:entries="@array/categories"
+        android:prompt="@string/category_prompt" />
 
 
-</LinearLayout>
+</RelativeLayout>
