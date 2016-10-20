@@ -119,6 +119,7 @@ public class InputFragment extends Fragment implements View.OnClickListener {
         }
         title.setText("");
         description.setText("");
+        //hideKeyboardFrom(thiscontext, thisview);
 
         Context context = getApplicationContext();
         CharSequence text = "Idea Sent!";
@@ -211,7 +212,6 @@ public class InputFragment extends Fragment implements View.OnClickListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-    // TODO: TO call this, write hideKayboardFrom(thiscontext, thisview); on click submit
     public static void hideKeyboardFrom(Context context, View view) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
