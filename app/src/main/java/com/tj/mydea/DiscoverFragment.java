@@ -1,52 +1,44 @@
 package com.tj.mydea;
 
-import android.content.Context;
-import android.os.Bundle;
+import android.os.AsyncTask;
 import android.os.Build;
-import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.transition.Scene;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Scanner;
-import android.os.StrictMode;
 
-import android.content.Context;
-import android.os.AsyncTask;
-import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.io.BufferedReader;
+
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.BufferedInputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.*;
 import java.util.ArrayList;
-import java.util.Collections;
-import 	java.util.concurrent.ExecutionException;
+import java.util.List;
+import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
 
 public class DiscoverFragment extends Fragment {
-    private List<String> ideaNames = new ArrayList<String>();
-    private List<String> descriptions = new ArrayList<String>();
-    private List<String> authors = new ArrayList<String>();
+    private List<String> ideaNames = new ArrayList<>();
+    private List<String> descriptions = new ArrayList<>();
+    private List<String> authors = new ArrayList<>();
+    private List<String> dates = new ArrayList<>();
+    private List<String> categories = new ArrayList<>();
+    private List<Integer> likes = new ArrayList<>();
+    //private List<String[]> comments = new ArrayList<>();
+
+
+
     /*private String[] ideaNames = {"hello"};
     private String[] descriptions = {"hello"};
     private String[] authors = {"hello"};*/
@@ -98,12 +90,18 @@ public class DiscoverFragment extends Fragment {
         public TextView authorTextView;
         public TextView ideaNameTextView;
         public TextView descriptionTextView;
+        public TextView dateTextView;
+        public TextView categoryTextView;
+        public TextView likeTextView;
 
         public ideaHolder(View itemView) {
             super(itemView);
             authorTextView = (TextView) itemView.findViewById(R.id.textview_author);
             ideaNameTextView = (TextView) itemView.findViewById(R.id.textview_ideaName);
             descriptionTextView = (TextView) itemView.findViewById(R.id.textview_description);
+            dateTextView = (TextView) itemView.findViewById(R.id.textview_date);
+            categoryTextView = (TextView) itemView.findViewById(R.id.textview_category);
+            likeTextView = (TextView) itemView.findViewById(R.id.textview_like);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -118,6 +116,10 @@ public class DiscoverFragment extends Fragment {
             authorTextView.setText(id.getauthor());
             ideaNameTextView.setText(id.getideaName());
             descriptionTextView.setText(id.getdescription());
+            dateTextView.setText("Posted: " + id.getdate());
+            categoryTextView.setText(id.getcategory());
+            Log.v("test", id.getcategory());
+            likeTextView.setText("Likes: " + Integer.toString(id.getlike()));
         }
     }
 
@@ -261,9 +263,15 @@ public class DiscoverFragment extends Fragment {
                     String idea_name = jsonobject.getString("idea_name");
                     String description = jsonobject.getString("description");
                     String user_name = jsonobject.getString("user_name");
+                    String date = jsonobject.getString("created_at");
+                    String category = jsonobject.getString("category");
+                    Integer like = jsonobject.getInt("likes");
                     ideaNames.add(idea_name);
                     descriptions.add(description);
                     authors.add(user_name);
+                    dates.add(date);
+                    categories.add(category);
+                    likes.add(like);
                 }
 
                 for (int i = 0; i < ideaNames.size(); i++) {
@@ -271,6 +279,9 @@ public class DiscoverFragment extends Fragment {
                     idea.setideaName(ideaNames.get(i));
                     idea.setauthor(authors.get(i));
                     idea.setdescription(descriptions.get(i));
+                    idea.setdate(dates.get(i));
+                    idea.setcategory(categories.get(i));
+                    idea.setlike(likes.get(i));
                     ideas.add(idea);
                 }
 
