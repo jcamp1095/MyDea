@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -99,6 +100,9 @@ public class InputFragment extends Fragment implements View.OnClickListener {
         String description_str = description.getText().toString();
 
         NaviActivity activity = (NaviActivity) getActivity();
+        Spinner spinner1 = (Spinner) getView().findViewById(R.id.spinner1);
+        String spinner_str = spinner1.getSelectedItem().toString();
+
         String user_id = activity.get_user_id();
         String user_name = activity.get_user_name();
 
@@ -108,6 +112,7 @@ public class InputFragment extends Fragment implements View.OnClickListener {
             object.put("description", description_str);
             object.put("user_id", user_id);
             object.put("user_name", user_name);
+            object.put("category", spinner_str);
             postIdea(object);
         } catch (JSONException e) {
             e.printStackTrace();

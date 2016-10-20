@@ -48,5 +48,13 @@
         android:layout_alignBottom="@+id/send_idea_button"
         android:layout_alignParentStart="true" />
 
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editDescription"
+        android:entries="@array/categories"
+        android:prompt="@string/category_prompt" />
+
 
 </RelativeLayout>

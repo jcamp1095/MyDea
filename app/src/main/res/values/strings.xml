@@ -18,7 +18,16 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
+    <string name="category_prompt">Choose a category</string>
+    <string-array name="categories">
+        <item>Choose a Category...</item>
+        <item>Technology</item>
+        <item>Sports</item>
+        <item>Food</item>
+        <item>Fashion</item>
+        <item>Applications</item>
+        <item>Other</item>
+    </string-array>
     <string name="action_settings">Settings</string>
     <string name="button_text">Send Idea</string>
 
