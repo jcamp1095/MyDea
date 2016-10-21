@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -85,6 +85,7 @@ public class DiscoverFragment extends Fragment {
         discoverRecyclerView.setAdapter(adapter);
     }
 
+
     private class ideaHolder extends RecyclerView.ViewHolder {
         private Idea idea;
         public TextView authorTextView;
@@ -105,8 +106,16 @@ public class DiscoverFragment extends Fragment {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getActivity(),
-                            idea.getauthor_id() + " clicked!", Toast.LENGTH_SHORT).show();
+                    FragmentManager fm = getFragmentManager();
+                    MyDialogFragment dialogFragment = new MyDialogFragment ();
+
+                    Bundle args = new Bundle();
+                    args.putString("author", authorTextView.getText().toString());
+                    args.putString("title", ideaNameTextView.getText().toString());
+                    args.putString("description", descriptionTextView.getText().toString());
+
+                    dialogFragment.setArguments(args);
+                    dialogFragment.show(fm, "Sample Fragment");
                 }
             });
         }
