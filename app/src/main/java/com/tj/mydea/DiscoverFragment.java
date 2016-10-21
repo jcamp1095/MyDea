@@ -35,6 +35,7 @@ public class DiscoverFragment extends Fragment {
     private List<String> dates = new ArrayList<>();
     private List<String> categories = new ArrayList<>();
     private List<Integer> likes = new ArrayList<>();
+    private List<Integer> author_ids = new ArrayList<>();
     //private List<String[]> comments = new ArrayList<>();
 
 
@@ -55,9 +56,8 @@ public class DiscoverFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        JSONArray ideasObj = null;
         try {
-            ideasObj = new GetIdeas().execute("https://mydea-db.herokuapp.com/ideas").get();
+            new GetIdeas().execute("https://mydea-db.herokuapp.com/ideas").get();
         }
         catch (ExecutionException | InterruptedException ex) {
             ex.printStackTrace();
@@ -106,7 +106,7 @@ public class DiscoverFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(getActivity(),
-                            idea.getideaName() + " clicked!", Toast.LENGTH_SHORT).show();
+                            idea.getauthor_id() + " clicked!", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -266,12 +266,14 @@ public class DiscoverFragment extends Fragment {
                     String date = jsonobject.getString("created_at");
                     String category = jsonobject.getString("category");
                     Integer like = jsonobject.getInt("likes");
+                    Integer author_id = jsonobject.getInt("user_id");
                     ideaNames.add(idea_name);
                     descriptions.add(description);
                     authors.add(user_name);
                     dates.add(date);
                     categories.add(category);
                     likes.add(like);
+                    author_ids.add(author_id);
                 }
 
                 for (int i = 0; i < ideaNames.size(); i++) {
@@ -282,6 +284,7 @@ public class DiscoverFragment extends Fragment {
                     idea.setdate(dates.get(i));
                     idea.setcategory(categories.get(i));
                     idea.setlike(likes.get(i));
+                    idea.setauthor_id(author_ids.get(i));
                     ideas.add(idea);
                 }
 
