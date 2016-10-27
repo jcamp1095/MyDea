@@ -29,6 +29,7 @@ import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
 public class DiscoverFragment extends Fragment {
+    // Initiating lists for information included with each idea
     private List<String> ideaNames = new ArrayList<>();
     private List<String> descriptions = new ArrayList<>();
     private List<String> authors = new ArrayList<>();
@@ -40,9 +41,7 @@ public class DiscoverFragment extends Fragment {
 
 
 
-    /*private String[] ideaNames = {"hello"};
-    private String[] descriptions = {"hello"};
-    private String[] authors = {"hello"};*/
+
     private ArrayList<Idea> ideas = new ArrayList<>();
     private RecyclerView discoverRecyclerView;
     private ideaAdapter adapter;
