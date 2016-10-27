@@ -1,5 +1,6 @@
 # MyDea - An app for sharing your ideas and getting others involved
-# Note: This is a work in progress. To see most updated version, go to
+## Note: This is a work in progress. To see most updated version, go to https://github.com/jcamp1095/MyDea/tree/working
+
 ## By Joe Campbell and Tommy Tang
 
 ## Why we need this app
