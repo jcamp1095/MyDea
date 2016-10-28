@@ -11,6 +11,7 @@ public class Idea {
     private String date;
     private String category;
     private Integer like;
+    private Integer author_id;
     //private String[] comment;
     public String getideaName() {
         return ideaName;
@@ -47,5 +48,11 @@ public class Idea {
     }
     public void setcategory(String category) {
         this.category = category;
+    }
+    public Integer getauthor_id() {
+        return author_id;
+    }
+    public void setauthor_id(Integer author_id) {
+        this.author_id = author_id;
     }
 }
