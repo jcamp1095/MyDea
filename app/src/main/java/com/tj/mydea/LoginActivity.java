@@ -1,8 +1,8 @@
 package com.tj.mydea;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -15,6 +15,9 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.sendbird.android.SendBird;
+import com.sendbird.android.SendBirdException;
+import com.sendbird.android.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,10 +45,12 @@ public class LoginActivity extends AppCompatActivity {
         if (b != null) {
             manual = (Boolean) b.get("manual");
         }
+        SendBird.init("8C25C95D-2021-4A1D-B6C3-77C8E14EF727", LoginActivity.this);
         FacebookSdk.sdkInitialize(getApplicationContext(), new FacebookSdk.InitializeCallback() {
             @Override
             public void onInitialized() {
-                if(AccessToken.getCurrentAccessToken() != null && manual == false) {
+                if(AccessToken.getCurrentAccessToken() != null && manual != null && manual == false) {
+                    Log.v("hey", "already logged in");
                     GraphRequest request = GraphRequest.newMeRequest(
                             AccessToken.getCurrentAccessToken(),
                             new GraphRequest.GraphJSONObjectCallback() {
@@ -98,6 +103,16 @@ public class LoginActivity extends AppCompatActivity {
                                             object.remove("name");
                                             Log.v("LoginActivity", object.toString());
                                             postUser(object);
+                                            SendBird.connect(object.get("id").toString(), new SendBird.ConnectHandler() {
+                                                @Override
+                                                public void onConnected(User user, SendBirdException e) {
+                                                    if (e != null) {
+                                                        Log.v("sendbird", "error");
+                                                        Toast.makeText(LoginActivity.this, "" + e.getCode() + ":" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                        return;
+                                                    } else {Log.v("sendbird", "connected");}
+                                                }
+                                            });
                                             Intent intent = new Intent(LoginActivity.this, NaviActivity.class);
                                             intent.putExtra("user_id", (String) object.get("user_id"));
                                             intent.putExtra("user_name", (String) object.get("user_name"));
@@ -154,11 +169,11 @@ public class LoginActivity extends AppCompatActivity {
                     BufferedReader br = new BufferedReader(new InputStreamReader(
                             (conn.getInputStream())));
 
-                    String output;
+                    /*String output;
                     System.out.println("Output from Server .... \n");
                     while ((output = br.readLine()) != null) {
                         System.out.println(output);
-                    }
+                    }*/
 
                     conn.disconnect();
 

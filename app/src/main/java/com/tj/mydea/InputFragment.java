@@ -119,7 +119,9 @@ public class InputFragment extends Fragment implements View.OnClickListener {
         }
         title.setText("");
         description.setText("");
-        //hideKeyboardFrom(thiscontext, thisview);
+
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
 
         Context context = getApplicationContext();
         CharSequence text = "Idea Sent!";
