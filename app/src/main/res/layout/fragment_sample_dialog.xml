@@ -1,50 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:padding="10dp"
-    android:orientation="vertical">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="20dp"
+    android:minWidth="1000dp"
+    android:minHeight="1000dp"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <Button
+        android:gravity="left|top"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/dismiss"
+        android:background="@drawable/com_facebook_tooltip_black_xout" />
 
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Lorem ipsum dolor sit amet..."
-        android:textSize="20dp"
-        android:textAlignment="center"
+        android:textSize="22dp"
+        android:textAlignment="inherit"
         android:textStyle="normal|bold" />
+
     <TextView
         android:id="@+id/author"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Lorem ipsum dolor sit amet..."
         android:textSize="20dp"
-        android:textAlignment="center" />
+        android:textAlignment="inherit" />
+
     <TextView
         android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Lorem ipsum dolor sit amet..."
         android:textSize="20dp"
-        android:textAlignment="center" />
+        android:textAlignment="inherit"
+        android:bufferType="normal" />
 
-    <Button
-        android:id="@+id/message"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Message Author" />
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:gravity="center|bottom"
+        android:orientation="vertical" >
+        <Button
+            android:id="@+id/message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Message Author" />
 
-    <Button
-        android:id="@+id/like"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Like" />
+        <Button
+            android:id="@+id/like"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Like" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/dismiss"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Dismiss" />
 
 </LinearLayout>

@@ -30,7 +30,7 @@ public class MyDialogFragment extends DialogFragment {
 
         title_view.setText(title);
         author_view.setText(author);
-        description_view.setText(description);
+        description_view.setText("Description: " + description);
 
         Button dismiss = (Button) rootView.findViewById(R.id.dismiss);
         dismiss.setOnClickListener(new View.OnClickListener() {
