@@ -40,6 +40,12 @@
         android:textSize="20dp"
         android:textAlignment="inherit"
         android:bufferType="normal" />
+    <ExpandableListView
+        android:layout_width="match_parent"
+        android:id="@+id/lvExp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/description">
+    </ExpandableListView>
 
     <LinearLayout
         android:layout_width="match_parent"

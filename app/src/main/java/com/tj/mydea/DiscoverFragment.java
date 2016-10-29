@@ -25,7 +25,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
@@ -40,12 +39,6 @@ public class DiscoverFragment extends Fragment {
     private List<Integer> likes = new ArrayList<>();
     private List<Integer> author_ids = new ArrayList<>();
     //private List<String[]> comments = new ArrayList<>();
-
-    //comments views
-    ExpandableListAdapter listAdapter;
-    ExpandableListView expListView;
-    List<String> listDataHeader;
-    HashMap<String, List<String>> listDataChild;
 
     private ArrayList<Idea> ideas = new ArrayList<>();
     private RecyclerView discoverRecyclerView;
@@ -108,7 +101,6 @@ public class DiscoverFragment extends Fragment {
             dateTextView = (TextView) itemView.findViewById(R.id.textview_date);
             categoryTextView = (TextView) itemView.findViewById(R.id.textview_category);
             likeTextView = (TextView) itemView.findViewById(R.id.textview_like);
-            exlistView = (ExpandableListView) itemView.findViewById(R.id.lvExp);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -135,18 +127,7 @@ public class DiscoverFragment extends Fragment {
             categoryTextView.setText(id.getcategory());
             Log.v("test", id.getcategory());
             likeTextView.setText("Likes: " + Integer.toString(id.getlike()));
-            set_up_comments(exlistView);
         }
-    }
-
-    private void set_up_comments(ExpandableListView exlistView) {
-        // preparing list data
-        prepareListData();
-
-        listAdapter = new ExpandableListAdapter(getContext(), listDataHeader, listDataChild);
-
-        // setting list adapter
-        exlistView.setAdapter(listAdapter);
     }
 
     private class ideaAdapter extends RecyclerView.Adapter<ideaHolder> {
@@ -175,24 +156,7 @@ public class DiscoverFragment extends Fragment {
         }
     }
 
-    /*
-     * Preparing the list data
-     */
-    private void prepareListData() {
-        listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, List<String>>();
 
-        // Adding child data
-        listDataHeader.add("Comments");
-
-        // Adding child data
-        List<String> comments = new ArrayList<String>();
-        comments.add("Cools Idea Brah");
-        comments.add("LUV IT!!!!!");
-        comments.add("Wish I though of it!!!");
-
-        listDataChild.put(listDataHeader.get(0), comments);
-    }
     /*@Override
     public void onAttach(Context context) {
         super.onAttach(context);

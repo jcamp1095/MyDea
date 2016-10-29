@@ -3,7 +3,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
+    android:layout_height="150dp"
     android:padding="4dp">
     <TextView
         android:paddingTop="0dp"
@@ -68,10 +68,4 @@
             android:id="@+id/message_user"
             android:layout_gravity="bottom|right"/>
     </LinearLayout>-->
-    <ExpandableListView
-        android:layout_width="match_parent"
-        android:id="@+id/lvExp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textview_date">
-    </ExpandableListView>
 </RelativeLayout>

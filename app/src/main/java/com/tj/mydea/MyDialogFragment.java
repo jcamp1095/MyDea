@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -18,12 +19,21 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by joecampbell on 10/21/16.
  */
 
 public class MyDialogFragment extends DialogFragment {
+
+    //comments views
+    ExpandableListAdapter listAdapter;
+    ExpandableListView expListView;
+    List<String> listDataHeader;
+    HashMap<String, List<String>> listDataChild;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,9 +45,11 @@ public class MyDialogFragment extends DialogFragment {
 
         getDialog().setTitle(title);
 
+
         TextView title_view = (TextView) rootView.findViewById(R.id.title);
         TextView author_view = (TextView) rootView.findViewById(R.id.author);
         TextView description_view = (TextView) rootView.findViewById(R.id.description);
+        ExpandableListView exlistView = (ExpandableListView) rootView.findViewById(R.id.lvExp);
 
         title_view.setText(title);
         author_view.setText(author);
@@ -51,6 +63,8 @@ public class MyDialogFragment extends DialogFragment {
                 dismiss();
             }
         });
+
+        set_up_comments(exlistView);
 
         final JSONObject object = new JSONObject();
         try {
@@ -115,5 +129,34 @@ public class MyDialogFragment extends DialogFragment {
         });
 
         t.start();
+    }
+
+    private void set_up_comments(ExpandableListView exlistView) {
+        // preparing list data
+        prepareListData();
+
+        listAdapter = new ExpandableListAdapter(getContext(), listDataHeader, listDataChild);
+
+        // setting list adapter
+        exlistView.setAdapter(listAdapter);
+    }
+
+    /*
+     * Preparing the list data
+     */
+    private void prepareListData() {
+        listDataHeader = new ArrayList<String>();
+        listDataChild = new HashMap<String, List<String>>();
+
+        // Adding child data
+        listDataHeader.add("Comments");
+
+        // Adding child data
+        List<String> comments = new ArrayList<String>();
+        comments.add("Cools Idea Brah");
+        comments.add("LUV IT!!!!!");
+        comments.add("Wish I though of it!!!");
+
+        listDataChild.put(listDataHeader.get(0), comments);
     }
 }
