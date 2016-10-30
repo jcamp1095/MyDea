@@ -91,6 +91,7 @@ public class DiscoverFragment extends Fragment {
         public TextView dateTextView;
         public TextView categoryTextView;
         public TextView likeTextView;
+        public TextView authoridTextView;
         public ExpandableListView exlistView;
 
         public ideaHolder(View itemView) {
@@ -101,6 +102,7 @@ public class DiscoverFragment extends Fragment {
             dateTextView = (TextView) itemView.findViewById(R.id.textview_date);
             categoryTextView = (TextView) itemView.findViewById(R.id.textview_category);
             likeTextView = (TextView) itemView.findViewById(R.id.textview_like);
+            authoridTextView = (TextView) itemView.findViewById(R.id.textview_author_id);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -111,7 +113,7 @@ public class DiscoverFragment extends Fragment {
                     args.putString("author", authorTextView.getText().toString());
                     args.putString("title", ideaNameTextView.getText().toString());
                     args.putString("description", descriptionTextView.getText().toString());
-
+                    args.putString("author_id", idea.getauthor_id().toString());
                     dialogFragment.setArguments(args);
                     dialogFragment.show(fm, "Sample Fragment");
                 }
@@ -125,8 +127,8 @@ public class DiscoverFragment extends Fragment {
             descriptionTextView.setText(id.getdescription());
             dateTextView.setText("Posted: " + id.getdate());
             categoryTextView.setText(id.getcategory());
-            Log.v("test", id.getcategory());
             likeTextView.setText("Likes: " + Integer.toString(id.getlike()));
+            authoridTextView.setText(id.getauthor_id());
         }
     }
 
