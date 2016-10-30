@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -38,9 +39,6 @@ public class DiscoverFragment extends Fragment {
     private List<Integer> likes = new ArrayList<>();
     private List<Integer> author_ids = new ArrayList<>();
     //private List<String[]> comments = new ArrayList<>();
-
-
-
 
     private ArrayList<Idea> ideas = new ArrayList<>();
     private RecyclerView discoverRecyclerView;
@@ -93,6 +91,7 @@ public class DiscoverFragment extends Fragment {
         public TextView dateTextView;
         public TextView categoryTextView;
         public TextView likeTextView;
+        public ExpandableListView exlistView;
 
         public ideaHolder(View itemView) {
             super(itemView);
@@ -156,6 +155,8 @@ public class DiscoverFragment extends Fragment {
             return mideas.size();
         }
     }
+
+
     /*@Override
     public void onAttach(Context context) {
         super.onAttach(context);
