@@ -47,6 +47,8 @@ public class MyDialogFragment extends DialogFragment {
         String author = getArguments().getString("author");
         String description = getArguments().getString("description");
         final String author_id = getArguments().getString("author_id");
+        String comments = getArguments().getString("comments");
+
 
         getDialog().setTitle(title);
 
@@ -69,7 +71,7 @@ public class MyDialogFragment extends DialogFragment {
             }
         });
 
-        set_up_comments(exlistView);
+        set_up_comments(exlistView, comments);
 
         final JSONObject object = new JSONObject();
         try {
@@ -152,9 +154,9 @@ public class MyDialogFragment extends DialogFragment {
         t.start();
     }
 
-    private void set_up_comments(ExpandableListView exlistView) {
+    private void set_up_comments(ExpandableListView exlistView, String comments) {
         // preparing list data
-        prepareListData();
+        prepareListData(comments);
 
         listAdapter = new ExpandableListAdapter(getContext(), listDataHeader, listDataChild);
 
@@ -165,7 +167,7 @@ public class MyDialogFragment extends DialogFragment {
     /*
      * Preparing the list data
      */
-    private void prepareListData() {
+    private void prepareListData(String comments_add) {
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
 
@@ -174,9 +176,17 @@ public class MyDialogFragment extends DialogFragment {
 
         // Adding child data
         List<String> comments = new ArrayList<String>();
-        comments.add("Cools Idea Brah");
-        comments.add("LUV IT!!!!!");
-        comments.add("Wish I though of it!!!");
+        for (int i  = 1; i < comments_add.length(); i++) {
+            String to_add = "";
+            while (comments_add.charAt(i) != ',' && comments_add.charAt(i) != ']'){
+                if (comments_add.charAt(i) != '"') {
+                    to_add += comments_add.charAt(i);
+                }
+                i++;
+            }
+            Log.v("to_add", to_add);
+            comments.add(to_add);
+        }
 
         listDataChild.put(listDataHeader.get(0), comments);
     }

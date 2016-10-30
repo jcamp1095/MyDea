@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -38,6 +37,7 @@ public class DiscoverFragment extends Fragment {
     private List<String> categories = new ArrayList<>();
     private List<Integer> likes = new ArrayList<>();
     private List<String> author_ids = new ArrayList<>();
+    private List<String> comments = new ArrayList<>();
     //private List<String[]> comments = new ArrayList<>();
 
     private ArrayList<Idea> ideas = new ArrayList<>();
@@ -92,7 +92,7 @@ public class DiscoverFragment extends Fragment {
         public TextView categoryTextView;
         public TextView likeTextView;
         public TextView authoridTextView;
-        public ExpandableListView exlistView;
+        public TextView commentsTextView;
 
         public ideaHolder(View itemView) {
             super(itemView);
@@ -103,6 +103,7 @@ public class DiscoverFragment extends Fragment {
             categoryTextView = (TextView) itemView.findViewById(R.id.textview_category);
             likeTextView = (TextView) itemView.findViewById(R.id.textview_like);
             authoridTextView = (TextView) itemView.findViewById(R.id.textview_author_id);
+            commentsTextView = (TextView) itemView.findViewById(R.id.textview_comments);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -114,6 +115,7 @@ public class DiscoverFragment extends Fragment {
                     args.putString("title", ideaNameTextView.getText().toString());
                     args.putString("description", descriptionTextView.getText().toString());
                     args.putString("author_id", authoridTextView.getText().toString());
+                    args.putString("comments", commentsTextView.getText().toString());
                     dialogFragment.setArguments(args);
                     dialogFragment.show(fm, "Sample Fragment");
                 }
@@ -129,6 +131,7 @@ public class DiscoverFragment extends Fragment {
             categoryTextView.setText(id.getcategory());
             likeTextView.setText("Likes: " + Integer.toString(id.getlike()));
             authoridTextView.setText(id.getauthor_id().toString());
+            commentsTextView.setText(id.getcomments().toString());
         }
     }
 
@@ -278,6 +281,7 @@ public class DiscoverFragment extends Fragment {
                     String category = jsonobject.getString("category");
                     Integer like = jsonobject.getInt("likes");
                     String author_id = jsonobject.getString("user_id");
+                    String comments_str = jsonobject.getString("comments");
                     ideaNames.add(idea_name);
                     descriptions.add(description);
                     authors.add(user_name);
@@ -285,6 +289,7 @@ public class DiscoverFragment extends Fragment {
                     categories.add(category);
                     likes.add(like);
                     author_ids.add(author_id);
+                    comments.add(comments_str);
                 }
 
                 for (int i = 0; i < ideaNames.size(); i++) {
@@ -296,6 +301,7 @@ public class DiscoverFragment extends Fragment {
                     idea.setcategory(categories.get(i));
                     idea.setlike(likes.get(i));
                     idea.setauthor_id(author_ids.get(i));
+                    idea.setcomments(comments.get(i));
                     ideas.add(idea);
                 }
 

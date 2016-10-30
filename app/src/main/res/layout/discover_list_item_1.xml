@@ -51,6 +51,11 @@
         android:layout_width="10dp"
         android:layout_height="10dp"
         android:visibility="invisible"/>
+    <TextView
+        android:id="@+id/textview_comments"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:visibility="invisible"/>
     <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
