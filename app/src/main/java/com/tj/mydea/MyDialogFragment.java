@@ -9,6 +9,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.sendbird.android.GroupChannel;
+import com.sendbird.android.SendBirdException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,6 +24,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -38,9 +43,10 @@ public class MyDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_sample_dialog, container, false);
 
-        String title = getArguments().getString("title");
+        final String title = getArguments().getString("title");
         String author = getArguments().getString("author");
         String description = getArguments().getString("description");
+        final String author_id = getArguments().getString("author_id");
 
         getDialog().setTitle(title);
 
@@ -71,10 +77,26 @@ public class MyDialogFragment extends DialogFragment {
             object.put("user_name", author);
             Button like = (Button) rootView.findViewById(R.id.like);
             like.setOnClickListener(new View.OnClickListener() {
-
                 @Override
                 public void onClick(View v) {
                     postLike(object);
+                    dismiss();
+                }
+            });
+            Button message = (Button) rootView.findViewById(R.id.message);
+            message.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    List<String> userIds = Arrays.asList(author_id);
+                    GroupChannel.createChannelWithUserIds(userIds, false, title, null, null, new GroupChannel.GroupChannelCreateHandler() {
+                        @Override
+                        public void onResult(GroupChannel groupChannel, SendBirdException e) {
+                            if (e != null) {
+                                Toast.makeText(getActivity(), "" + e.getCode() + ":" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                return;
+                            } else {Log.v("create channel", "success");}
+                        }
+                    });
                     dismiss();
                 }
             });

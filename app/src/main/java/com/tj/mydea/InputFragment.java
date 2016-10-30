@@ -103,7 +103,7 @@ public class InputFragment extends Fragment implements View.OnClickListener {
         title.setText("");
         description.setText("");
         List<String> userIds = Arrays.asList(user_id);
-        GroupChannel.createChannelWithUserIds(userIds, false, new GroupChannel.GroupChannelCreateHandler() {
+        GroupChannel.createChannelWithUserIds(userIds, false, title_str, null, null, new GroupChannel.GroupChannelCreateHandler() {
             @Override
             public void onResult(GroupChannel groupChannel, SendBirdException e) {
                 if (e != null) {
