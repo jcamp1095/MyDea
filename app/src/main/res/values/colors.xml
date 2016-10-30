@@ -3,4 +3,5 @@
     <color name="colorPrimary">#00b4b4</color>
     <color name="colorPrimaryDark">#009b9b</color>
     <color name="colorAccent">#000000</color>
+    <color name="sendbird_purple_color">#824096</color>
 </resources>

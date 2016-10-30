@@ -1,6 +1,8 @@
 package com.tj.mydea;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -61,8 +63,8 @@ public class LoginActivity extends AppCompatActivity {
                                         object.remove("id");
                                         object.put("user_name", object.get("name"));
                                         object.remove("name");
-                                        Log.v("LoginActivity", object.toString());
                                         postUser(object);
+                                        connect_to_sendbird(object.get("user_id").toString(), object.get("user_name").toString());
                                         Intent intent = new Intent(LoginActivity.this, NaviActivity.class);
                                         intent.putExtra("user_id", (String) object.get("user_id"));
                                         intent.putExtra("user_name", (String) object.get("user_name"));
@@ -103,16 +105,7 @@ public class LoginActivity extends AppCompatActivity {
                                             object.remove("name");
                                             Log.v("LoginActivity", object.toString());
                                             postUser(object);
-                                            SendBird.connect(object.get("id").toString(), new SendBird.ConnectHandler() {
-                                                @Override
-                                                public void onConnected(User user, SendBirdException e) {
-                                                    if (e != null) {
-                                                        Log.v("sendbird", "error");
-                                                        Toast.makeText(LoginActivity.this, "" + e.getCode() + ":" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                                        return;
-                                                    } else {Log.v("sendbird", "connected");}
-                                                }
-                                            });
+                                            connect_to_sendbird(object.get("user_id").toString(), object.get("user_name").toString());
                                             Intent intent = new Intent(LoginActivity.this, NaviActivity.class);
                                             intent.putExtra("user_id", (String) object.get("user_id"));
                                             intent.putExtra("user_name", (String) object.get("user_name"));
@@ -141,6 +134,33 @@ public class LoginActivity extends AppCompatActivity {
                         toast.show();
                     }
                 });
+    }
+
+    public void connect_to_sendbird(final String id, final String name)
+    {
+        SendBird.connect(id, new SendBird.ConnectHandler() {
+            @Override
+            public void onConnected(User user, SendBirdException e) {
+                if (e != null) {
+                    Log.v("sendbird", "error");
+                    Toast.makeText(LoginActivity.this, "" + e.getCode() + ":" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                SendBird.updateCurrentUserInfo(name, null, new SendBird.UserInfoUpdateHandler() {
+                    @Override
+                    public void onUpdated(SendBirdException e) {
+                        if (e != null) {
+                            Toast.makeText(LoginActivity.this, "" + e.getCode() + ":" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        SharedPreferences.Editor editor = getPreferences(Context.MODE_PRIVATE).edit();
+                        editor.putString("user_id", id);
+                        editor.putString("nickname", name);
+                        editor.commit();
+                    }
+                });
+            }
+        });
     }
     public void postUser(final JSONObject object) {
         Thread t = new Thread(new Runnable() {

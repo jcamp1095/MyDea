@@ -134,7 +134,8 @@ public class NaviActivity extends AppCompatActivity
         } else if (id == R.id.nav_staridea) {
 
         } else if (id == R.id.nav_messages) {
-
+            Intent intent = new Intent(NaviActivity.this, MessageFragment.class);
+            startActivity(intent);
         } else if (id == R.id.nav_login) {
             Intent intent = new Intent(NaviActivity.this, LoginActivity.class);
             intent.putExtra("manual", true);
