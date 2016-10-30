@@ -1,5 +1,6 @@
 package com.tj.mydea;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
@@ -99,7 +100,8 @@ public class MyDialogFragment extends DialogFragment {
                             } else {Log.v("create channel", "success");}
                         }
                     });
-                    dismiss();
+                    Intent intent = new Intent(getActivity(), MessageFragment.class);
+                    startActivity(intent);
                 }
             });
 
