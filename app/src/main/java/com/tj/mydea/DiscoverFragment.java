@@ -37,7 +37,7 @@ public class DiscoverFragment extends Fragment {
     private List<String> dates = new ArrayList<>();
     private List<String> categories = new ArrayList<>();
     private List<Integer> likes = new ArrayList<>();
-    private List<Integer> author_ids = new ArrayList<>();
+    private List<String> author_ids = new ArrayList<>();
     //private List<String[]> comments = new ArrayList<>();
 
     private ArrayList<Idea> ideas = new ArrayList<>();
@@ -113,7 +113,7 @@ public class DiscoverFragment extends Fragment {
                     args.putString("author", authorTextView.getText().toString());
                     args.putString("title", ideaNameTextView.getText().toString());
                     args.putString("description", descriptionTextView.getText().toString());
-                    args.putString("author_id", idea.getauthor_id().toString());
+                    args.putString("author_id", authoridTextView.getText().toString());
                     dialogFragment.setArguments(args);
                     dialogFragment.show(fm, "Sample Fragment");
                 }
@@ -128,7 +128,7 @@ public class DiscoverFragment extends Fragment {
             dateTextView.setText("Posted: " + id.getdate());
             categoryTextView.setText(id.getcategory());
             likeTextView.setText("Likes: " + Integer.toString(id.getlike()));
-            authoridTextView.setText(id.getauthor_id());
+            authoridTextView.setText(id.getauthor_id().toString());
         }
     }
 
@@ -277,7 +277,7 @@ public class DiscoverFragment extends Fragment {
                     String date = jsonobject.getString("created_at");
                     String category = jsonobject.getString("category");
                     Integer like = jsonobject.getInt("likes");
-                    Integer author_id = jsonobject.getInt("user_id");
+                    String author_id = jsonobject.getString("user_id");
                     ideaNames.add(idea_name);
                     descriptions.add(description);
                     authors.add(user_name);
