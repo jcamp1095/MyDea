@@ -63,6 +63,9 @@
             android:configChanges="orientation|screenSize"
             android:label="SendBird"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="6fd6eb6457a9124944f64487b73951360036dff7" />
     </application>
 
 </manifest>

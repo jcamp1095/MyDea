@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 
-
 public class NaviActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     String user_id = "";
