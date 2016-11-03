@@ -2,6 +2,7 @@
 
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="150dp"
     android:padding="4dp">
@@ -11,41 +12,47 @@
         android:id="@+id/textview_ideaName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16dp" android:textStyle="bold"/>
+        android:textSize="16dp" android:textStyle="bold"
+        tools:ignore="SpUsage" />
     <TextView
         android:id="@+id/textview_author"
         android:textSize="12dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textview_ideaName"/>
+        android:layout_below="@id/textview_ideaName"
+        tools:ignore="SpUsage" />
     <TextView
         android:id="@+id/textview_category"
         android:textSize="12dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/textview_ideaName"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true"
+        tools:ignore="RtlHardcoded,SpUsage" />
     <TextView
         android:id="@+id/textview_description"
         android:paddingLeft="0dp"
         android:textSize="14dp"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_below="@id/textview_author"/>
+        android:layout_below="@id/textview_author"
+        tools:ignore="RtlHardcoded,RtlSymmetry,SpUsage" />
     <TextView
         android:id="@+id/textview_like"
         android:paddingLeft="0dp"
         android:textSize="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textview_description"/>
+        android:layout_below="@id/textview_description"
+        tools:ignore="RtlHardcoded,RtlSymmetry,SpUsage" />
     <TextView
         android:id="@+id/textview_date"
         android:textSize="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/textview_description"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true"
+        tools:ignore="RtlHardcoded,SpUsage" />
     <TextView
         android:id="@+id/textview_author_id"
         android:layout_width="10dp"

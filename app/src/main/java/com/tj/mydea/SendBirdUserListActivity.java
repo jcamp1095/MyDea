@@ -1,5 +1,6 @@
 package com.tj.mydea;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -32,6 +33,7 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 
+@SuppressWarnings("EmptyMethod")
 public class SendBirdUserListActivity extends FragmentActivity {
     private SendBirdUserListFragment mSendBirdUserListFragment;
 
@@ -48,6 +50,7 @@ public class SendBirdUserListActivity extends FragmentActivity {
         initUIComponents();
     }
 
+    @SuppressWarnings("EmptyMethod")
     @Override
     protected void onResume() {
         super.onResume();
@@ -58,6 +61,7 @@ public class SendBirdUserListActivity extends FragmentActivity {
 //        SendBird.notifyActivityResumedForOldAndroids();
     }
 
+    @SuppressWarnings("EmptyMethod")
     @Override
     protected void onPause() {
         super.onPause();
@@ -131,6 +135,7 @@ public class SendBirdUserListActivity extends FragmentActivity {
         private SendBirdUserAdapter mAdapter;
         private HashSet<String> mSelectedUserIds;
 
+        @SuppressWarnings("unused")
         public SendBirdUserListFragment() {
         }
 
@@ -183,6 +188,7 @@ public class SendBirdUserListActivity extends FragmentActivity {
         }
 
         public class SendBirdUserAdapter extends BaseAdapter {
+            @SuppressWarnings("unused")
             private final Context mContext;
             private final LayoutInflater mInflater;
             private final ArrayList<User> mItemList;
@@ -203,10 +209,12 @@ public class SendBirdUserListActivity extends FragmentActivity {
                 return mItemList.get(position);
             }
 
+            @SuppressWarnings("unused")
             public void clear() {
                 mItemList.clear();
             }
 
+            @SuppressWarnings("unused")
             public User remove(int index) {
                 return mItemList.remove(index);
             }
@@ -221,6 +229,7 @@ public class SendBirdUserListActivity extends FragmentActivity {
                 notifyDataSetChanged();
             }
 
+            @SuppressLint("SetTextI18n")
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 ViewHolder viewHolder;
@@ -267,7 +276,7 @@ public class SendBirdUserListActivity extends FragmentActivity {
             }
 
             private class ViewHolder {
-                private Hashtable<String, View> holder = new Hashtable<>();
+                private final Hashtable<String, View> holder = new Hashtable<>();
 
                 public void setView(String k, View v) {
                     holder.put(k, v);

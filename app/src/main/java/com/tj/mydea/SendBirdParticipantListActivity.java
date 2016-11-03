@@ -31,11 +31,12 @@ import java.util.Collection;
 import java.util.Hashtable;
 import java.util.List;
 
+@SuppressWarnings({"EmptyMethod", "unused"})
 public class SendBirdParticipantListActivity extends FragmentActivity {
-    private SendBirdParticipantListFragment mSendBirdParticipantListFragment;
 
     private View mTopBarContainer;
 
+    @SuppressWarnings("unused")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +48,7 @@ public class SendBirdParticipantListActivity extends FragmentActivity {
         initUIComponents();
     }
 
+    @SuppressWarnings({"EmptyMethod", "unused"})
     @Override
     protected void onResume() {
         super.onResume();
@@ -57,6 +59,7 @@ public class SendBirdParticipantListActivity extends FragmentActivity {
 //        SendBird.notifyActivityResumedForOldAndroids();
     }
 
+    @SuppressWarnings({"EmptyMethod", "unused"})
     @Override
     protected void onPause() {
         super.onPause();
@@ -67,12 +70,14 @@ public class SendBirdParticipantListActivity extends FragmentActivity {
 //        SendBird.notifyActivityPausedForOldAndroids();
     }
 
+    @SuppressWarnings("unused")
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         resizeMenubar();
     }
 
+    @SuppressWarnings("unused")
     private void resizeMenubar() {
         ViewGroup.LayoutParams lp = mTopBarContainer.getLayoutParams();
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -83,14 +88,16 @@ public class SendBirdParticipantListActivity extends FragmentActivity {
         mTopBarContainer.setLayoutParams(lp);
     }
 
+    @SuppressWarnings("unused")
     @Override
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.sendbird_slide_in_from_top, R.anim.sendbird_slide_out_to_bottom);
     }
 
+    @SuppressWarnings("unused")
     private void initFragment() {
-        mSendBirdParticipantListFragment = new SendBirdParticipantListFragment();
+        SendBirdParticipantListFragment mSendBirdParticipantListFragment = new SendBirdParticipantListFragment();
         mSendBirdParticipantListFragment.setArguments(getIntent().getExtras());
 
         getSupportFragmentManager().beginTransaction()
@@ -98,6 +105,7 @@ public class SendBirdParticipantListActivity extends FragmentActivity {
                 .commit();
     }
 
+    @SuppressWarnings("unused")
     private void initUIComponents() {
         mTopBarContainer = findViewById(R.id.top_bar_container);
 
@@ -117,6 +125,7 @@ public class SendBirdParticipantListActivity extends FragmentActivity {
         private SendBirdUserAdapter mAdapter;
         private String mChannelUrl;
 
+        @SuppressWarnings("unused")
         public SendBirdParticipantListFragment() {}
 
         @Override
@@ -217,6 +226,7 @@ public class SendBirdParticipantListActivity extends FragmentActivity {
         }
 
         public class SendBirdUserAdapter extends BaseAdapter {
+            @SuppressWarnings("unused")
             private final Context mContext;
             private final LayoutInflater mInflater;
             private final ArrayList<User> mItemList;
@@ -237,10 +247,12 @@ public class SendBirdParticipantListActivity extends FragmentActivity {
                 return mItemList.get(position);
             }
 
+            @SuppressWarnings("unused")
             public void clear() {
                 mItemList.clear();
             }
 
+            @SuppressWarnings("unused")
             public User remove(int index) {
                 return mItemList.remove(index);
             }
@@ -282,7 +294,7 @@ public class SendBirdParticipantListActivity extends FragmentActivity {
             }
 
             private class ViewHolder {
-                private Hashtable<String, View> holder = new Hashtable<>();
+                private final Hashtable<String, View> holder = new Hashtable<>();
 
                 public void setView(String k, View v) {
                     holder.put(k, v);

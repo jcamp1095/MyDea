@@ -1,17 +1,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="fill_parent"
     android:layout_width="fill_parent"
     android:orientation="vertical"
     android:weightSum="1">
 
-    <!-- TODO: Update blank fragment layout -->
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/button_text"
         android:id="@+id/send_idea_button"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true"
+        tools:ignore="RelativeOverlap,RtlHardcoded" />
 
 
     <EditText
@@ -22,7 +23,7 @@
         android:ems="10"
         android:id="@+id/editTitle"
         android:layout_below="@+id/send_idea_button"
-        />
+        tools:ignore="HardcodedText" />
 
     <EditText
         android:inputType="textMultiLine"
@@ -35,7 +36,8 @@
         android:scrollbars="vertical"
         android:layout_below="@+id/editTitle"
         android:hint="Enter Description..."
-        android:id="@+id/editDescription" />
+        android:id="@+id/editDescription"
+        tools:ignore="HardcodedText,RtlHardcoded" />
 
     <TextView
         android:text="Send Your Idea!"
@@ -46,7 +48,9 @@
         android:textSize="24sp"
         android:layout_alignBaseline="@+id/send_idea_button"
         android:layout_alignBottom="@+id/send_idea_button"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        tools:ignore="HardcodedText"
+        android:fontFamily="sans-serif-medium" />
 
     <Spinner
         android:id="@+id/spinner1"

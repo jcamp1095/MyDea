@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="76dp"
     >
@@ -25,7 +26,7 @@
             android:scaleType="centerCrop"
             android:src="@drawable/sendbird_ic_launcher"
             android:layout_gravity="center_vertical"
-            />
+            tools:ignore="ContentDescription,RtlHardcoded" />
 
         <TextView
             android:layout_gravity="center_vertical"
@@ -34,11 +35,10 @@
             android:layout_height="wrap_content"
             android:minHeight="50dp"
             android:id="@+id/txt_name"
-            android:singleLine="true"
             android:textSize="17sp"
             android:textColor="#3d3d3d"
             android:gravity="center_vertical"
-            />
+            android:maxLines="1" />
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -54,7 +54,7 @@
                 android:checked="false"
                 android:layout_marginTop="18dp"
                 android:layout_gravity="right"
-                />
+                tools:ignore="RtlHardcoded" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
                 android:textColor="#8e8e8e"
                 android:text="Online"
                 android:layout_gravity="top|right"
-                />
+                tools:ignore="HardcodedText,RtlHardcoded,SmallSp" />
             <TextView
                 android:id="@+id/txt_last_seen_at"
                 android:layout_width="wrap_content"
@@ -73,7 +73,7 @@
                 android:layout_marginTop="21dp"
                 android:layout_gravity="top|right"
                 android:visibility="gone"
-                />
+                tools:ignore="RtlHardcoded,SmallSp" />
 
         </FrameLayout>
 

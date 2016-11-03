@@ -1,6 +1,7 @@
 package com.tj.mydea;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -61,6 +62,7 @@ import java.util.List;
     }
 
 }*/
+@SuppressWarnings("EmptyMethod")
 public class MessageFragment extends FragmentActivity {
     private SendBirdGroupChannelListFragment mSendBirdGroupChannelListFragment;
 
@@ -80,6 +82,7 @@ public class MessageFragment extends FragmentActivity {
         Toast.makeText(this, "Long press the channel to hide or leave it.", Toast.LENGTH_LONG).show();
     }
 
+    @SuppressWarnings("EmptyMethod")
     @Override
     protected void onResume() {
         super.onResume();
@@ -90,6 +93,7 @@ public class MessageFragment extends FragmentActivity {
 //        SendBird.notifyActivityResumedForOldAndroids();
     }
 
+    @SuppressWarnings("EmptyMethod")
     @Override
     protected void onPause() {
         super.onPause();
@@ -184,6 +188,7 @@ public class MessageFragment extends FragmentActivity {
         private SendBirdGroupChannelAdapter mAdapter;
         private GroupChannelListQuery mQuery;
 
+        @SuppressWarnings("unused")
         public SendBirdGroupChannelListFragment() {
         }
 
@@ -296,8 +301,9 @@ public class MessageFragment extends FragmentActivity {
             });
         }
 
+        @SuppressWarnings("RedundantCast")
         private void create(final String[] userIds) {
-            View view = getActivity().getLayoutInflater().inflate(R.layout.sendbird_view_group_create_channel, null);
+            View view = getActivity().getLayoutInflater().inflate(R.layout.sendbird_view_group_create_channel, (ViewGroup) null);
             final EditText chName = (EditText) view.findViewById(R.id.etxt_chname);
             final CheckBox distinct = (CheckBox) view.findViewById(R.id.chk_distinct);
 
@@ -402,6 +408,7 @@ public class MessageFragment extends FragmentActivity {
             mItemList.clear();
         }
 
+        @SuppressWarnings("UnusedReturnValue")
         public GroupChannel remove(int index) {
             return mItemList.remove(index);
         }
@@ -427,6 +434,7 @@ public class MessageFragment extends FragmentActivity {
             notifyDataSetChanged();
         }
 
+        @SuppressLint("SetTextI18n")
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder viewHolder;
@@ -479,7 +487,7 @@ public class MessageFragment extends FragmentActivity {
         }
 
         private static class ViewHolder {
-            private Hashtable<String, View> holder = new Hashtable<>();
+            private final Hashtable<String, View> holder = new Hashtable<>();
 
             public void setView(String k, View v) {
                 holder.put(k, v);

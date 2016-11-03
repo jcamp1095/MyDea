@@ -1,5 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -13,7 +13,8 @@
         android:orientation="horizontal"
         android:layout_gravity="center_vertical"
         android:paddingBottom="10dp"
-        android:visibility="visible">
+        android:visibility="visible"
+        tools:ignore="RtlHardcoded">
 
         <LinearLayout
             android:layout_width="42dp"
@@ -28,7 +29,7 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/sendbird_ic_launcher"
                 android:visibility="visible"
-                />
+                tools:ignore="ContentDescription" />
         </LinearLayout>
 
         <LinearLayout
@@ -52,14 +53,14 @@
                     android:textSize="13sp"
                     android:textColor="#927ece"
 
-                    />
+                    tools:ignore="HardcodedText" />
                 <ImageView
                     android:id="@+id/img_left"
                     android:layout_width="128dp"
                     android:layout_height="128dp"
                     android:layout_gravity="center_vertical"
                     android:scaleType="centerCrop"
-                    />
+                    tools:ignore="ContentDescription" />
             </LinearLayout>
 
             <TextView
@@ -73,7 +74,7 @@
                 android:text="10:24PM"
                 android:textColor="#acaab2"
                 android:textSize="10sp"
-                />
+                tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,SmallSp" />
         </LinearLayout>
 
     </LinearLayout>
@@ -86,13 +87,15 @@
         android:orientation="vertical"
         android:layout_gravity="center_vertical"
         android:paddingBottom="10dp"
-        android:visibility="visible">
+        android:visibility="visible"
+        tools:ignore="RtlHardcoded">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|right"
             android:orientation="horizontal"
-            >
+            tools:ignore="RtlHardcoded,UselessParent"
+            android:baselineAligned="false">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -100,7 +103,7 @@
                 android:paddingRight="4dp"
                 android:paddingBottom="2dp"
                 android:orientation="vertical"
-                >
+                tools:ignore="RtlHardcoded,RtlSymmetry">
                 <TextView
                     android:id="@+id/txt_right_status"
                     android:layout_width="wrap_content"
@@ -110,7 +113,7 @@
                     android:text="Unread"
                     android:textColor="#ac90ff"
                     android:textSize="10sp"
-                    />
+                    tools:ignore="HardcodedText,RtlHardcoded,SmallSp" />
                 <TextView
                     android:id="@+id/txt_right_time"
                     android:layout_width="wrap_content"
@@ -120,7 +123,7 @@
                     android:text="10:24"
                     android:textColor="#acaab2"
                     android:textSize="10sp"
-                    />
+                    tools:ignore="HardcodedText,RtlHardcoded,SmallSp" />
             </LinearLayout>
 
             <LinearLayout
@@ -136,13 +139,13 @@
                     android:layout_height="wrap_content"
                     android:text="SenderName"
                     android:visibility="gone"
-                    />
+                    tools:ignore="HardcodedText" />
                 <ImageView
                     android:id="@+id/img_right"
                     android:layout_width="128dp"
                     android:layout_height="128dp"
                     android:scaleType="centerCrop"
-                    />
+                    tools:ignore="ContentDescription" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="42dp"
@@ -157,7 +160,7 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/sendbird_ic_launcher"
                     android:visibility="visible"
-                    />
+                    tools:ignore="ContentDescription" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

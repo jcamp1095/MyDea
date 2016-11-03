@@ -28,7 +28,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_alignParentBottom="true"
         android:background="#ffffff"
         >
         <View
@@ -68,7 +67,7 @@
                     android:layout_height="match_parent"
                     android:src="@drawable/sendbird_btn_upload"
                     android:background="#00000000"
-                    />
+                    tools:ignore="ContentDescription" />
 
             </LinearLayout>
 
@@ -79,7 +78,6 @@
                 android:layout_height="match_parent"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:singleLine="true"
                 android:gravity="center_vertical"
                 android:textColorHint="#bbc3c9"
                 android:hint="What's on your mind?"
@@ -87,7 +85,8 @@
                 android:textSize="16sp"
                 android:text=""
                 android:background="#00000000"
-                />
+                android:maxLines="1"
+                tools:ignore="HardcodedText" />
             <Button
                 android:id="@+id/btn_send"
                 android:layout_width="0dp"
@@ -98,7 +97,7 @@
                 android:textColor="#ffffff"
                 android:text="Send"
                 android:background="@drawable/sendbird_btn_send"
-                />
+                tools:ignore="HardcodedText" />
         </LinearLayout>
 
     </RelativeLayout>

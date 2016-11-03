@@ -1,5 +1,6 @@
 package com.tj.mydea;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -25,7 +26,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,13 +34,13 @@ import java.util.List;
  * Created by joecampbell on 10/21/16.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class MyDialogFragment extends DialogFragment {
 
-    //comments views
-    ExpandableListAdapter listAdapter;
-    List<String> listDataHeader;
-    HashMap<String, List<String>> listDataChild;
+    private List<String> listDataHeader;
+    private HashMap<String, List<String>> listDataChild;
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_sample_dialog, container, false);
@@ -90,13 +91,12 @@ public class MyDialogFragment extends DialogFragment {
             message.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    List<String> userIds = Arrays.asList(author_id);
+                    @SuppressWarnings("ArraysAsListWithZeroOrOneArgument") List<String> userIds = Collections.singletonList(author_id);
                     GroupChannel.createChannelWithUserIds(userIds, false, title, null, null, new GroupChannel.GroupChannelCreateHandler() {
                         @Override
                         public void onResult(GroupChannel groupChannel, SendBirdException e) {
                             if (e != null) {
                                 Toast.makeText(getActivity(), "" + e.getCode() + ":" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                return;
                             } else {Log.v("create channel", "success");}
                         }
                     });
@@ -112,7 +112,7 @@ public class MyDialogFragment extends DialogFragment {
         return rootView;
     }
 
-    public void postLike(final JSONObject object) {
+    private void postLike(final JSONObject object) {
         Thread t = new Thread(new Runnable() {
             public void run() {
                 try {
@@ -160,7 +160,7 @@ public class MyDialogFragment extends DialogFragment {
         // preparing list data
         prepareListData(comments);
 
-        listAdapter = new ExpandableListAdapter(getContext(), listDataHeader, listDataChild);
+        ExpandableListAdapter listAdapter = new ExpandableListAdapter(getContext(), listDataHeader, listDataChild);
 
         // setting list adapter
         exlistView.setAdapter(listAdapter);
@@ -170,14 +170,14 @@ public class MyDialogFragment extends DialogFragment {
      * Preparing the list data
      */
     private void prepareListData(String comments_add) {
-        listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, List<String>>();
+        listDataHeader = new ArrayList<>();
+        listDataChild = new HashMap<>();
 
         // Adding child data
         listDataHeader.add("Comments");
 
         // Adding child data
-        List<String> comments = new ArrayList<String>();
+        List<String> comments = new ArrayList<>();
         for (int i  = 1; i < comments_add.length(); i++) {
             String to_add = "";
             while (comments_add.charAt(i) != ',' && comments_add.charAt(i) != ']'){

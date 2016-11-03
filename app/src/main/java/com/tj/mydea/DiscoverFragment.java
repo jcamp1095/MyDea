@@ -1,5 +1,6 @@
 package com.tj.mydea;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,7 +22,6 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,24 +30,24 @@ import java.util.concurrent.ExecutionException;
 
 public class DiscoverFragment extends Fragment {
     // Initiating lists for information included with each idea
-    private List<String> ideaNames = new ArrayList<>();
-    private List<String> descriptions = new ArrayList<>();
-    private List<String> authors = new ArrayList<>();
-    private List<String> dates = new ArrayList<>();
-    private List<String> categories = new ArrayList<>();
-    private List<Integer> likes = new ArrayList<>();
-    private List<String> author_ids = new ArrayList<>();
-    private List<String> comments = new ArrayList<>();
+    private final List<String> ideaNames = new ArrayList<>();
+    private final List<String> descriptions = new ArrayList<>();
+    private final List<String> authors = new ArrayList<>();
+    private final List<String> dates = new ArrayList<>();
+    private final List<String> categories = new ArrayList<>();
+    private final List<Integer> likes = new ArrayList<>();
+    private final List<String> author_ids = new ArrayList<>();
+    private final List<String> comments = new ArrayList<>();
     //private List<String[]> comments = new ArrayList<>();
 
-    private ArrayList<Idea> ideas = new ArrayList<>();
+    private final ArrayList<Idea> ideas = new ArrayList<>();
     private RecyclerView discoverRecyclerView;
-    private ideaAdapter adapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
+    @SuppressWarnings("unused")
     public DiscoverFragment() {
     }
 
@@ -78,21 +78,22 @@ public class DiscoverFragment extends Fragment {
     }
 
     private void updateUI() {
-        adapter = new ideaAdapter(ideas);
+        ideaAdapter adapter = new ideaAdapter(ideas);
         discoverRecyclerView.setAdapter(adapter);
     }
 
 
     private class ideaHolder extends RecyclerView.ViewHolder {
+        @SuppressWarnings("unused")
         private Idea idea;
-        public TextView authorTextView;
-        public TextView ideaNameTextView;
-        public TextView descriptionTextView;
-        public TextView dateTextView;
-        public TextView categoryTextView;
-        public TextView likeTextView;
-        public TextView authoridTextView;
-        public TextView commentsTextView;
+        public final TextView authorTextView;
+        public final TextView ideaNameTextView;
+        public final TextView descriptionTextView;
+        public final TextView dateTextView;
+        public final TextView categoryTextView;
+        public final TextView likeTextView;
+        public final TextView authoridTextView;
+        public final TextView commentsTextView;
 
         public ideaHolder(View itemView) {
             super(itemView);
@@ -122,6 +123,7 @@ public class DiscoverFragment extends Fragment {
             });
         }
 
+        @SuppressLint("SetTextI18n")
         public void bindData(Idea id) {
             idea = id;
             authorTextView.setText(id.getauthor());
@@ -130,13 +132,13 @@ public class DiscoverFragment extends Fragment {
             dateTextView.setText("Posted: " + id.getdate());
             categoryTextView.setText(id.getcategory());
             likeTextView.setText("Likes: " + Integer.toString(id.getlike()));
-            authoridTextView.setText(id.getauthor_id().toString());
-            commentsTextView.setText(id.getcomments().toString());
+            authoridTextView.setText(id.getauthor_id());
+            commentsTextView.setText(id.getcomments());
         }
     }
 
     private class ideaAdapter extends RecyclerView.Adapter<ideaHolder> {
-        private ArrayList<Idea> mideas;
+        private final ArrayList<Idea> mideas;
 
         public ideaAdapter(ArrayList<Idea> ideas) {
             mideas = ideas;
@@ -193,7 +195,7 @@ public class DiscoverFragment extends Fragment {
         // TODO: Update argument type and name
         void onListFragmentInteraction(DummyItem item);
     }*/
-    public static JSONArray requestWebService(String serviceUrl) {
+    private static JSONArray requestWebService(String serviceUrl) {
         disableConnectionReuseIfNecessary();
 
         HttpURLConnection urlConnection = null;
@@ -219,13 +221,8 @@ public class DiscoverFragment extends Fragment {
             return new JSONArray(response);
             //return new JSONObject(getResponseText(in));
 
-        } catch (MalformedURLException e) {
+        } catch (JSONException | IOException e) {
             // URL is invalid
-        } catch (IOException e) {
-            // could not read response body
-            // (could not create input stream)
-        } catch (JSONException e) {
-            // response body is no valid JSON string
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -240,7 +237,7 @@ public class DiscoverFragment extends Fragment {
      */
     private static void disableConnectionReuseIfNecessary() {
         // see HttpURLConnection API doc
-        if (Integer.parseInt(Build.VERSION.SDK)
+        if (Build.VERSION.SDK_INT
                 < Build.VERSION_CODES.FROYO) {
             System.setProperty("http.keepAlive", "false");
         }
@@ -264,7 +261,7 @@ public class DiscoverFragment extends Fragment {
         return counter;
     }
 
-    public class GetIdeas extends AsyncTask<String, Void, JSONArray> {
+    private class GetIdeas extends AsyncTask<String, Void, JSONArray> {
         protected JSONArray doInBackground(String... strings) {
             return requestWebService(strings[0]);
         }
