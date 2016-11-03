@@ -1,5 +1,6 @@
 package com.tj.mydea;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -10,6 +11,7 @@ import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
@@ -51,6 +53,7 @@ import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
 
+@SuppressWarnings("EmptyMethod")
 public class SendBirdGroupChatActivity extends FragmentActivity {
     private SendBirdChatFragment mSendBirdMessagingFragment;
 
@@ -69,6 +72,7 @@ public class SendBirdGroupChatActivity extends FragmentActivity {
         initUIComponents();
     }
 
+    @SuppressWarnings("EmptyMethod")
     @Override
     protected void onResume() {
         super.onResume();
@@ -79,6 +83,7 @@ public class SendBirdGroupChatActivity extends FragmentActivity {
 //        SendBird.notifyActivityResumedForOldAndroids();
     }
 
+    @SuppressWarnings("EmptyMethod")
     @Override
     protected void onPause() {
         super.onPause();
@@ -121,7 +126,7 @@ public class SendBirdGroupChatActivity extends FragmentActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case Helper.MY_PERMISSION_REQUEST_STORAGE:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED &&
@@ -196,6 +201,7 @@ public class SendBirdGroupChatActivity extends FragmentActivity {
         private PreviousMessageListQuery mPrevMessageListQuery;
         private boolean mIsUploading;
 
+        @SuppressWarnings("unused")
         public SendBirdChatFragment() {
         }
 
@@ -462,7 +468,6 @@ public class SendBirdGroupChatActivity extends FragmentActivity {
                 public void onResult(SendBirdException e) {
                     if (e != null) {
                         Toast.makeText(getActivity(), "" + e.getCode() + ":" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        return;
                     }
                 }
             });
@@ -508,30 +513,27 @@ public class SendBirdGroupChatActivity extends FragmentActivity {
 
         private void upload(Uri uri) {
             Hashtable<String, Object> info = Helper.getFileInfo(getActivity(), uri);
+            assert info != null;
             final String path = (String) info.get("path");
             final File file = new File(path);
             final String name = file.getName();
             final String mime = (String) info.get("mime");
             final int size = (Integer) info.get("size");
 
-            if (path == null) {
-                Toast.makeText(getActivity(), "Uploading file must be located in local storage.", Toast.LENGTH_LONG).show();
-            } else {
-                showUploadProgress(true);
-                mGroupChannel.sendFileMessage(file, name, mime, size, "", new BaseChannel.SendFileMessageHandler() {
-                    @Override
-                    public void onSent(FileMessage fileMessage, SendBirdException e) {
-                        showUploadProgress(false);
-                        if (e != null) {
-                            Toast.makeText(getActivity(), "" + e.getCode() + ":" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-                        mAdapter.appendMessage(fileMessage);
-                        mAdapter.notifyDataSetChanged();
+            showUploadProgress(true);
+            mGroupChannel.sendFileMessage(file, name, mime, size, "", new BaseChannel.SendFileMessageHandler() {
+                @Override
+                public void onSent(FileMessage fileMessage, SendBirdException e) {
+                    showUploadProgress(false);
+                    if (e != null) {
+                        Toast.makeText(getActivity(), "" + e.getCode() + ":" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        return;
                     }
-                });
-            }
+
+                    mAdapter.appendMessage(fileMessage);
+                    mAdapter.notifyDataSetChanged();
+                }
+            });
         }
     }
 
@@ -573,6 +575,7 @@ public class SendBirdGroupChatActivity extends FragmentActivity {
             return mItemList.get(position);
         }
 
+        @SuppressWarnings("unused")
         public void delete(Object object) {
             mItemList.remove(object);
         }
@@ -617,6 +620,7 @@ public class SendBirdGroupChatActivity extends FragmentActivity {
             return 5;
         }
 
+        @SuppressLint("SetTextI18n")
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder viewHolder;
@@ -714,6 +718,7 @@ public class SendBirdGroupChatActivity extends FragmentActivity {
                 }
             }
 
+            assert convertView != null;
             viewHolder = (ViewHolder) convertView.getTag();
             switch (getItemViewType(position)) {
                 case TYPE_UNSUPPORTED:
@@ -750,6 +755,7 @@ public class SendBirdGroupChatActivity extends FragmentActivity {
                     break;
                 case TYPE_ADMIN_MESSAGE:
                     AdminMessage adminMessage = (AdminMessage) item;
+                    //noinspection deprecation
                     viewHolder.getView("message", TextView.class).setText(Html.fromHtml(adminMessage.getMessage()));
                     break;
                 case TYPE_FILE_MESSAGE:
@@ -850,7 +856,7 @@ public class SendBirdGroupChatActivity extends FragmentActivity {
         }
 
         private class ViewHolder {
-            private Hashtable<String, View> holder = new Hashtable<>();
+            private final Hashtable<String, View> holder = new Hashtable<>();
             private int type;
 
             public int getViewType() {

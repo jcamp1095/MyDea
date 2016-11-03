@@ -15,9 +15,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.sendbird.android.GroupChannel;
-import com.sendbird.android.SendBirdException;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,38 +24,35 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link InputFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link InputFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
+@SuppressWarnings("EmptyMethod")
 public class InputFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    @SuppressWarnings("unused")
     private static final String ARG_PARAM1 = "param1";
+    @SuppressWarnings("unused")
     private static final String ARG_PARAM2 = "param2";
-    Context thiscontext;
-    View thisview;
 
     // TODO: Rename and change types of parameters
+    @SuppressWarnings("unused")
     private String mParam1;
+    @SuppressWarnings("unused")
     private String mParam2;
 
+    @SuppressWarnings("unused")
     private OnFragmentInteractionListener mListener;
 
+    @SuppressWarnings("unused")
     public InputFragment() {
         // Required empty public constructor
     }
 
+    @SuppressWarnings("EmptyMethod")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,8 +62,7 @@ public class InputFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        thiscontext = container.getContext();
-        thisview = inflater.inflate(R.layout.fragment_input, container, false);
+        View thisview = inflater.inflate(R.layout.fragment_input, container, false);
         Button send_data = (Button) thisview.findViewById(R.id.send_idea_button);
         send_data.setOnClickListener(this);
         return thisview;
@@ -77,7 +70,7 @@ public class InputFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        EditText title = (EditText)getView().findViewById(R.id.editTitle);
+        @SuppressWarnings("ConstantConditions") EditText title = (EditText)getView().findViewById(R.id.editTitle);
         EditText description = (EditText)getView().findViewById(R.id.editDescription);
         String title_str = title.getText().toString();
         String description_str = description.getText().toString();
@@ -102,18 +95,18 @@ public class InputFragment extends Fragment implements View.OnClickListener {
         }
         title.setText("");
         description.setText("");
-        List<String> userIds = Arrays.asList(user_id);
+        /*List<String> userIds = Collections.singletonList(user_id);
         GroupChannel.createChannelWithUserIds(userIds, false, title_str, null, null, new GroupChannel.GroupChannelCreateHandler() {
             @Override
             public void onResult(GroupChannel groupChannel, SendBirdException e) {
                 if (e != null) {
                     Toast.makeText(getActivity(), "" + e.getCode() + ":" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    return;
                 } else {Log.v("create channel", "success");}
             }
-        });
+        });*/
 
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        //noinspection ConstantConditions
         inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
 
         Context context = getApplicationContext();
@@ -126,13 +119,14 @@ public class InputFragment extends Fragment implements View.OnClickListener {
 
 
     // TODO: Rename method, update argument and hook method into UI event
+    @SuppressWarnings("unused")
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
     }
 
-    public void postIdea(final JSONObject object) {
+    private void postIdea(final JSONObject object) {
         Thread t = new Thread(new Runnable() {
             public void run() {
                 try {
@@ -203,10 +197,12 @@ public class InputFragment extends Fragment implements View.OnClickListener {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
+    @SuppressWarnings("unused")
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+    @SuppressWarnings("unused")
     public static void hideKeyboardFrom(Context context, View view) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);

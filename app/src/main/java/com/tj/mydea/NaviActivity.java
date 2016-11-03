@@ -3,6 +3,7 @@ package com.tj.mydea;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -18,9 +19,9 @@ import android.widget.TextView;
 
 public class NaviActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    String user_id = "";
-    String user_name = "";
-    String email = "";
+    private String user_id = "";
+    private String user_name = "";
+    private String email = "";
     //String imageURI = "";
 
     private final Runnable mUpdateUITimerTask = new Runnable() {
@@ -55,7 +56,7 @@ public class NaviActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -117,7 +118,7 @@ public class NaviActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 

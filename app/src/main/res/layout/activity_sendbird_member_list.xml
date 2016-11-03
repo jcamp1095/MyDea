@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            >
+            tools:ignore="UselessParent">
             <ImageButton
                 android:layout_alignParentLeft="true"
                 android:id="@+id/btn_close"
@@ -27,7 +27,7 @@
                 android:src="@drawable/sendbird_btn_close"
                 android:background="#00000000"
                 android:layout_gravity="center"
-                />
+                tools:ignore="ContentDescription,RtlHardcoded" />
             <TextView
                 android:id="@+id/txt_channel_name"
                 android:layout_width="wrap_content"
@@ -37,7 +37,7 @@
                 android:textStyle="bold"
                 android:textColor="#ffffff"
                 android:text="Members"
-                />
+                tools:ignore="HardcodedText" />
         </RelativeLayout>
     </RelativeLayout>
 

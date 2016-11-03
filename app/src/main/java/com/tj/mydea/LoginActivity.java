@@ -26,9 +26,7 @@ import io.fabric.sdk.android.Fabric;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -37,9 +35,8 @@ import java.util.Arrays;
 public class LoginActivity extends AppCompatActivity {
 
     private CallbackManager callbackManager;
-    LoginButton loginButton;
 
-    Boolean manual = false;
+    private Boolean manual = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext(), new FacebookSdk.InitializeCallback() {
             @Override
             public void onInitialized() {
-                if(AccessToken.getCurrentAccessToken() != null && manual != null && manual == false) {
+                if(AccessToken.getCurrentAccessToken() != null && manual != null && !manual) {
                     Log.v("hey", "already logged in");
                     GraphRequest request = GraphRequest.newMeRequest(
                             AccessToken.getCurrentAccessToken(),
@@ -89,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         callbackManager = CallbackManager.Factory.create();
-        loginButton = (LoginButton)findViewById(R.id.login_button);
+        LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions(Arrays.asList("public_profile", "email"));
 
         loginButton.registerCallback(callbackManager,
@@ -139,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    public void connect_to_sendbird(final String id, final String name)
+    private void connect_to_sendbird(final String id, final String name)
     {
         SendBird.connect(id, new SendBird.ConnectHandler() {
             @Override
@@ -159,13 +156,13 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = getPreferences(Context.MODE_PRIVATE).edit();
                         editor.putString("user_id", id);
                         editor.putString("nickname", name);
-                        editor.commit();
+                        editor.apply();
                     }
                 });
             }
         });
     }
-    public void postUser(final JSONObject object) {
+    private void postUser(final JSONObject object) {
         Thread t = new Thread(new Runnable() {
             public void run() {
                 try {
@@ -189,8 +186,8 @@ public class LoginActivity extends AppCompatActivity {
                                 + conn.getResponseCode());
                     }
 
-                    BufferedReader br = new BufferedReader(new InputStreamReader(
-                            (conn.getInputStream())));
+                    /*BufferedReader br = new BufferedReader(new InputStreamReader(
+                            (conn.getInputStream())));*/
 
                     /*String output;
                     System.out.println("Output from Server .... \n");

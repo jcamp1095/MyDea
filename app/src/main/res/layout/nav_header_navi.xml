@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
     android:background="@drawable/side_nav_bar"
@@ -23,7 +24,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        app:srcCompat="@android:drawable/sym_def_app_icon" />
+        app:srcCompat="@android:drawable/sym_def_app_icon"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:layout_width="match_parent"
@@ -32,13 +34,15 @@
         android:text="UserName"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:fontFamily="sans-serif"
-        android:id="@+id/nav_username"/>
+        android:id="@+id/nav_username"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/nav_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="useremail@android.com" />
+        android:text="useremail@android.com"
+        tools:ignore="HardcodedText" />
 
 
 </LinearLayout>

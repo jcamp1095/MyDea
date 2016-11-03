@@ -51,7 +51,8 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class Helper {
+class Helper {
+    @SuppressWarnings("unused")
     public static String generateDeviceUUID(Context context) {
         String serial = Build.SERIAL;
         String androidID = Settings.Secure.ANDROID_ID;
@@ -128,13 +129,13 @@ public class Helper {
             if (members.size() < 2) {
                 return "No Members";
             } else if (members.size() == 2) {
-                StringBuffer names = new StringBuffer();
+                StringBuilder names = new StringBuilder();
                 for (User member : members) {
                     if (member.getUserId().equals(SendBird.getCurrentUser().getUserId())) {
                         continue;
                     }
 
-                    names.append(", " + member.getNickname());
+                    names.append(", ").append(member.getNickname());
                 }
                 return names.delete(0, 2).toString();
             } else {
@@ -142,14 +143,14 @@ public class Helper {
             }
         } else {
             int count = 0;
-            StringBuffer names = new StringBuffer();
+            StringBuilder names = new StringBuilder();
             for (User member : members) {
                 if (member.getUserId().equals(SendBird.getCurrentUser().getUserId())) {
                     continue;
                 }
 
                 count++;
-                names.append(", " + member.getNickname());
+                names.append(", ").append(member.getNickname());
 
                 if(count >= 10) {
                     break;
@@ -162,7 +163,7 @@ public class Helper {
     public static String getDisplayTimeOrDate(Context context, long milli) {
         Date date = new Date(milli);
 
-        if(System.currentTimeMillis() - milli > 60 * 60 * 24 * 1000l) {
+        if(System.currentTimeMillis() - milli > 60 * 60 * 24 * 1000L) {
             return DateFormat.getDateFormat(context).format(date);
         } else {
             return DateFormat.getTimeFormat(context).format(date);
@@ -172,7 +173,7 @@ public class Helper {
     public static String getDisplayDateTime(Context context, long milli) {
         Date date = new Date(milli);
 
-        if (System.currentTimeMillis() - milli < 60 * 60 * 24 * 1000l) {
+        if (System.currentTimeMillis() - milli < 60 * 60 * 24 * 1000L) {
             return DateFormat.getTimeFormat(context).format(date);
         }
 
@@ -192,6 +193,7 @@ public class Helper {
         }
     }
 
+    @SuppressWarnings("unused")
     public static String readableFileSize(long size) {
         if (size <= 0) return "0KB";
         final String[] units = new String[]{"B", "KB", "MB", "GB", "TB"};
@@ -213,7 +215,7 @@ public class Helper {
                 final String type = split[0];
 
                 if ("primary".equalsIgnoreCase(type)) {
-                    Hashtable<String, Object> value = new Hashtable<String, Object>();
+                    Hashtable<String, Object> value = new Hashtable<>();
                     value.put("path", Environment.getExternalStorageDirectory() + "/" + split[1]);
                     value.put("size", (int)new File((String)value.get("path")).length());
                     value.put("mime", "application/octet-stream");
@@ -263,6 +265,7 @@ public class Helper {
                     bitmap = BitmapFactory.decodeStream(input);
                     File file = File.createTempFile("sendbird", ".jpg");
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 80, new BufferedOutputStream(new FileOutputStream(file)));
+                    assert value != null;
                     value.put("path", file.getAbsolutePath());
                     value.put("size", (int)file.length());
                 } catch (Exception e) {
@@ -275,7 +278,7 @@ public class Helper {
         }
         // File
         else if ("file".equalsIgnoreCase(uri.getScheme())) {
-            Hashtable<String, Object> value = new Hashtable<String, Object>();
+            Hashtable<String, Object> value = new Hashtable<>();
             value.put("path", uri.getPath());
             value.put("size", (int)new File((String)value.get("path")).length());
             value.put("mime", "application/octet-stream");
@@ -309,7 +312,7 @@ public class Helper {
                 column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE);
                 int size = cursor.getInt(column_index);
 
-                Hashtable<String, Object> value = new Hashtable<String, Object>();
+                Hashtable<String, Object> value = new Hashtable<>();
                 if(path == null) path = "";
                 if(mime == null) mime = "application/octet-stream";
 
@@ -335,14 +338,14 @@ public class Helper {
     private static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
-    public static boolean isNewGooglePhotosUri(Uri uri) {
+    private static boolean isNewGooglePhotosUri(Uri uri) {
         return "com.google.android.apps.photos.contentprovider".equals(uri.getAuthority());
     }
 
     private static class UrlDownloadAsyncTask extends AsyncTask<Void, Void, Object> {
-        private static LRUCache cache = new LRUCache((int) (Runtime.getRuntime().maxMemory() / 16)); // 1/16th of the maximum memory.
+        private static final LRUCache cache = new LRUCache((int) (Runtime.getRuntime().maxMemory() / 16)); // 1/16th of the maximum memory.
         private final UrlDownloadAsyncTaskHandler handler;
-        private String url;
+        private final String url;
 
 
         public static void download(String url, final File downloadFile, final Context context) {
@@ -359,12 +362,13 @@ public class Helper {
                     }
 
                     try {
-                        BufferedInputStream in = null;
-                        BufferedOutputStream out = null;
+                        BufferedInputStream in;
+                        BufferedOutputStream out;
 
                         //create output directory if it doesn't exist
                         File dir = downloadFile.getParentFile();
                         if (!dir.exists()) {
+                            //noinspection ResultOfMethodCallIgnored
                             dir.mkdirs();
                         }
 
@@ -405,13 +409,13 @@ public class Helper {
         }
 
         public static void display(String url, final ImageView imageView, final boolean circle) {
-            UrlDownloadAsyncTask task = null;
+            UrlDownloadAsyncTask task;
 
             if (imageView.getTag() != null && imageView.getTag() instanceof UrlDownloadAsyncTask) {
                 try {
                     task = (UrlDownloadAsyncTask) imageView.getTag();
                     task.cancel(true);
-                } catch (Exception e) {
+                } catch (Exception ignored) {
                 }
 
                 imageView.setTag(null);
@@ -494,11 +498,11 @@ public class Helper {
         }
 
         public interface UrlDownloadAsyncTaskHandler {
-            public void onPreExecute();
+            void onPreExecute();
 
-            public Object doInBackground(File file);
+            Object doInBackground(File file);
 
-            public void onPostExecute(Object object, UrlDownloadAsyncTask task);
+            void onPostExecute(Object object, UrlDownloadAsyncTask task);
         }
 
         @Override
@@ -519,7 +523,7 @@ public class Helper {
 
                     InputStream input = new BufferedInputStream(new URL(url).openStream());
                     byte[] buf = new byte[1024 * 100];
-                    int read = 0;
+                    int read;
                     while ((read = input.read(buf, 0, buf.length)) >= 0) {
                         outputStream.write(buf, 0, read);
                     }
@@ -530,6 +534,7 @@ public class Helper {
                 }
             } catch (IOException e) {
                 if (outFile != null) {
+                    //noinspection ResultOfMethodCallIgnored
                     outFile.delete();
                 }
 
@@ -553,13 +558,13 @@ public class Helper {
         private static class LRUCache {
             private final int maxSize;
             private int totalSize;
-            private ConcurrentLinkedQueue<String> queue;
-            private ConcurrentHashMap<String, String> map;
+            private final ConcurrentLinkedQueue<String> queue;
+            private final ConcurrentHashMap<String, String> map;
 
             public LRUCache(final int maxSize) {
                 this.maxSize = maxSize;
-                this.queue = new ConcurrentLinkedQueue<String>();
-                this.map = new ConcurrentHashMap<String, String>();
+                this.queue = new ConcurrentLinkedQueue<>();
+                this.map = new ConcurrentHashMap<>();
             }
 
             public String get(final String key) {
@@ -632,7 +637,7 @@ public class Helper {
         }
 
         @Override
-        public void draw(Canvas canvas) {
+        public void draw(@SuppressWarnings("NullableProblems") Canvas canvas) {
             canvas.drawOval(mRectF, mPaint);
         }
 
@@ -671,6 +676,7 @@ public class Helper {
             return mBitmapHeight;
         }
 
+        @SuppressWarnings("unused")
         public void setAntiAlias(boolean aa) {
             mPaint.setAntiAlias(aa);
             invalidateSelf();
@@ -682,12 +688,14 @@ public class Helper {
             invalidateSelf();
         }
 
+        @SuppressWarnings("deprecation")
         @Override
         public void setDither(boolean dither) {
             mPaint.setDither(dither);
             invalidateSelf();
         }
 
+        @SuppressWarnings("unused")
         public Bitmap getBitmap() {
             return mBitmap;
         }

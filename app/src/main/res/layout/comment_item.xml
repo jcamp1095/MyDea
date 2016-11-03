@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="55dip"
     android:orientation="vertical" >
@@ -8,9 +9,10 @@
         android:id="@+id/lblListItem"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="17dip"
+        android:textSize="17dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft" />
+        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
+        tools:ignore="RtlHardcoded,RtlSymmetry,SpUsage" />
 
 </LinearLayout>

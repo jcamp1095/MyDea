@@ -20,7 +20,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="category_prompt">Choose a category</string>
     <string-array name="categories">
-        <item>Choose a Category...</item>
+        <item>Choose a Category…</item>
         <item>Technology</item>
         <item>Sports</item>
         <item>Food</item>

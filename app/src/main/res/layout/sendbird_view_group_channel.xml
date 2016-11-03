@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="76dp"
     >
@@ -25,7 +26,7 @@
             android:scaleType="centerCrop"
             android:src="@drawable/sendbird_ic_launcher"
             android:layout_gravity="center_vertical"
-            />
+            tools:ignore="ContentDescription,RtlHardcoded" />
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -47,11 +48,11 @@
                     android:maxWidth="100dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
                     android:textSize="17sp"
                     android:textColor="#3d3d3d"
                     android:text="Topic"
-                    />
+                    android:maxLines="1"
+                    tools:ignore="HardcodedText" />
                 <TextView
                     android:id="@+id/txt_member_count"
                     android:layout_width="wrap_content"
@@ -63,20 +64,19 @@
                     android:layout_gravity="center_vertical"
                     android:gravity="center"
                     android:layout_marginLeft="6dp"
-                    />
+                    tools:ignore="HardcodedText,RtlHardcoded,SmallSp" />
                 <TextView
                     android:id="@+id/txt_date"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:singleLine="true"
                     android:textSize="10sp"
                     android:textColor="#999999"
                     android:text="Apr 16, 2015"
-                    android:layout_alignParentRight="true"
                     android:gravity="top|center_horizontal"
                     android:paddingTop="2dp"
                     android:paddingLeft="10dp"
-                    />
+                    android:maxLines="1"
+                    tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry,SmallSp" />
 
             </LinearLayout>
             <TextView
@@ -90,7 +90,7 @@
                 android:textColor="#999999"
                 android:text="Last Message."
                 android:paddingRight="20dp"
-                />
+                tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry" />
             <TextView
                 android:layout_below="@+id/top"
                 android:id="@+id/txt_unread_count"
@@ -102,7 +102,7 @@
                 android:textSize="12sp"
                 android:gravity="center"
                 android:background="@drawable/sendbird_bg_notify"
-                />
+                tools:ignore="HardcodedText,RtlHardcoded" />
         </RelativeLayout>
     </LinearLayout>
     <View

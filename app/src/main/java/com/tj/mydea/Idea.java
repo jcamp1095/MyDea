@@ -4,7 +4,8 @@ package com.tj.mydea;
  * Created by tommy on 10/11/16.
  */
 
-public class Idea {
+@SuppressWarnings("DefaultFileTemplate")
+class Idea {
     private String ideaName;
     private String description;
     private String author;
