@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -18,8 +19,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -153,6 +157,31 @@ public class DiscoverFragment extends Fragment {
         public void onBindViewHolder(ideaHolder holder, int position) {
             Idea id = mideas.get(position);
             holder.bindData(id);
+            final View holder_v = holder.itemView;
+            //send like
+            final JSONObject object = new JSONObject();
+            try {
+                object.put("idea_name", id.getideaName());
+                object.put("user_name", id.getauthor());
+                final Button like_button = (Button) holder_v.findViewById(R.id.like_it);
+                like_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        postLike(object);
+                        TextView likeTextView = (TextView) holder_v.findViewById(R.id.textview_like);
+                        String likes = likeTextView.getText().toString();
+                        int like_int = 0;
+                        for (int i  = 0; i < likes.length(); i++){
+                            if (likes.charAt(i) == ' '){
+                                like_int = Integer.parseInt(likes.substring(i+1));
+                                break;
+                            }
+                        }
+                        likeTextView.setText("Likes: " + Integer.toString(like_int + 1));
+                    }
+                });
+            }
+            catch (JSONException e) {Log.v("LoginActivity", e.toString());}
         }
 
         @Override
@@ -262,6 +291,50 @@ public class DiscoverFragment extends Fragment {
         }
 
         return counter;
+    }
+
+    public void postLike(final JSONObject object) {
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    String query = "https://mydea-db.herokuapp.com/likes";
+
+                    URL url = new URL(query);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setConnectTimeout(5000);
+                    conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+                    conn.setRequestMethod("POST");
+
+                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                    wr.write(object.toString());
+                    Log.v("POSTING", object.toString());
+                    wr.flush();
+
+                    if (conn.getResponseCode() != 200) {
+                        throw new RuntimeException("Failed : HTTP error code : "
+                                + conn.getResponseCode());
+                    }
+
+                    BufferedReader br = new BufferedReader(new InputStreamReader(
+                            (conn.getInputStream())));
+
+                    String output;
+                    System.out.println("Output from Server .... \n");
+                    while ((output = br.readLine()) != null) {
+                        System.out.println(output);
+                    }
+
+                    conn.disconnect();
+
+                }
+                catch (IOException e) {
+                    Log.v("LoginActivity", e.toString());}
+            }
+        });
+
+        t.start();
     }
 
     public class GetIdeas extends AsyncTask<String, Void, JSONArray> {
