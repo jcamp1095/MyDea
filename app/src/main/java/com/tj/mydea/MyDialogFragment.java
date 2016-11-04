@@ -23,12 +23,6 @@ import com.sendbird.android.SendBirdException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -100,8 +94,9 @@ public class MyDialogFragment extends DialogFragment {
                     comment_obj.put("comments", comment_str);
                     comment_obj.put("idea_name", title);
                     comment_obj.put("user_name", author);
-                    postComment(comment_obj);
-                    append_comment(comment_str, comments, exlistView);
+                    Post post = new Post();
+                    post.send(comment_obj, "/comment");
+                    append_comment(comment_str, exlistView);
                     comment.setText("");
                 }
                 catch (JSONException e) {Log.v("LoginActivity", e.toString());}
@@ -116,7 +111,8 @@ public class MyDialogFragment extends DialogFragment {
             like.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    postLike(object);
+                    Post post = new Post();
+                    post.send(object, "/likes");
                     dismiss();
                 }
             });
@@ -146,14 +142,7 @@ public class MyDialogFragment extends DialogFragment {
         return rootView;
     }
 
-    private void append_comment(String comment_str, String comments, ExpandableListView exlistView) {
-        /*String new_comment = comments.substring(0, comments.length() - 1);
-        new_comment += ',';
-        new_comment += '"';
-        new_comment += comment_str;
-        new_comment += '"';
-        new_comment += ']';
-        Log.v("new comment:", new_comment);*/
+    private void append_comment(String comment_str, ExpandableListView exlistView) {
 
         comments_list.add(comment_str);
         listDataChild.put(listDataHeader.get(0), comments_list);
@@ -163,93 +152,9 @@ public class MyDialogFragment extends DialogFragment {
         exlistView.setAdapter(listAdapter);
 
     }
-    private void postLike(final JSONObject object) {
-        Thread t = new Thread(new Runnable() {
-            public void run() {
-                try {
-                    String query = "https://mydea-db.herokuapp.com/likes";
 
-                    URL url = new URL(query);
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setConnectTimeout(5000);
-                    conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-                    conn.setDoOutput(true);
-                    conn.setDoInput(true);
-                    conn.setRequestMethod("POST");
 
-                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-                    wr.write(object.toString());
-                    Log.v("POSTING", object.toString());
-                    wr.flush();
 
-                    if (conn.getResponseCode() != 200) {
-                        throw new RuntimeException("Failed : HTTP error code : "
-                                + conn.getResponseCode());
-                    }
-
-                    BufferedReader br = new BufferedReader(new InputStreamReader(
-                            (conn.getInputStream())));
-
-                    String output;
-                    System.out.println("Output from Server .... \n");
-                    while ((output = br.readLine()) != null) {
-                        System.out.println(output);
-                    }
-
-                    conn.disconnect();
-
-                }
-                catch (IOException e) {
-                    Log.v("LoginActivity", e.toString());}
-            }
-        });
-
-        t.start();
-    }
-
-    private void postComment(final JSONObject object) {
-        Thread t = new Thread(new Runnable() {
-            public void run() {
-                try {
-                    String query = "https://mydea-db.herokuapp.com/comment";
-
-                    URL url = new URL(query);
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setConnectTimeout(5000);
-                    conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-                    conn.setDoOutput(true);
-                    conn.setDoInput(true);
-                    conn.setRequestMethod("POST");
-
-                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-                    wr.write(object.toString());
-                    Log.v("POSTING", object.toString());
-                    wr.flush();
-
-                    if (conn.getResponseCode() != 200) {
-                        throw new RuntimeException("Failed : HTTP error code : "
-                                + conn.getResponseCode());
-                    }
-
-                    BufferedReader br = new BufferedReader(new InputStreamReader(
-                            (conn.getInputStream())));
-
-                    String output;
-                    System.out.println("Output from Server .... \n");
-                    while ((output = br.readLine()) != null) {
-                        System.out.println(output);
-                    }
-
-                    conn.disconnect();
-
-                }
-                catch (IOException e) {
-                    Log.v("LoginActivity", e.toString());}
-            }
-        });
-
-        t.start();
-    }
 
     private void set_up_comments(ExpandableListView exlistView, String comments) {
         // preparing list data

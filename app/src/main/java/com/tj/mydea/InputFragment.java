@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +15,6 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -88,7 +80,8 @@ public class InputFragment extends Fragment implements View.OnClickListener {
             object.put("user_id", user_id);
             object.put("user_name", user_name);
             object.put("category", spinner_str);
-            postIdea(object);
+            Post post = new Post();
+            post.send(object, "/sendIdea");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -125,49 +118,6 @@ public class InputFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void postIdea(final JSONObject object) {
-        Thread t = new Thread(new Runnable() {
-            public void run() {
-                try {
-                    String query = "https://mydea-db.herokuapp.com/sendIdea";
-
-                    URL url = new URL(query);
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setConnectTimeout(5000);
-                    conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-                    conn.setDoOutput(true);
-                    conn.setDoInput(true);
-                    conn.setRequestMethod("POST");
-
-                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-                    wr.write(object.toString());
-                    Log.v("POSTING", object.toString());
-                    wr.flush();
-
-                    if (conn.getResponseCode() != 200) {
-                        throw new RuntimeException("Failed : HTTP error code : "
-                                + conn.getResponseCode());
-                    }
-
-                    BufferedReader br = new BufferedReader(new InputStreamReader(
-                            (conn.getInputStream())));
-
-                    String output;
-                    System.out.println("Output from Server .... \n");
-                    while ((output = br.readLine()) != null) {
-                        System.out.println(output);
-                    }
-
-                    conn.disconnect();
-
-                }
-                catch (IOException e) {
-                    Log.v("LoginActivity", e.toString());}
-            }
-        });
-
-        t.start();
-    }
 
     /*@Override
     public void onAttach(Context context) {
