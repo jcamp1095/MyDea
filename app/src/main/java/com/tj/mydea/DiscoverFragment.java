@@ -290,7 +290,6 @@ public class DiscoverFragment extends Fragment {
         return counter;
     }
 
-<<<<<<< HEAD
     public void postLike(final JSONObject object) {
         Thread t = new Thread(new Runnable() {
             public void run() {
@@ -335,10 +334,8 @@ public class DiscoverFragment extends Fragment {
         t.start();
     }
 
-    public class GetIdeas extends AsyncTask<String, Void, JSONArray> {
-=======
+
     private class GetIdeas extends AsyncTask<String, Void, JSONArray> {
->>>>>>> 0b04a7e64f9b191b3c7dab92c48885f04d9f9945
         protected JSONArray doInBackground(String... strings) {
             return requestWebService(strings[0]);
         }

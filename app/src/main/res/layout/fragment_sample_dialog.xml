@@ -50,6 +50,28 @@
         android:id="@+id/lvExp"
         android:layout_height="wrap_content">
     </ExpandableListView>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/main"
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/lvExp"
+        android:layout_height="fill_parent" >
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:hint="Add a comment..."
+            android:ems="10"
+            android:id="@+id/sendComment"
+            tools:ignore="HardcodedText" />
+        <Button
+            android:id="@+id/comment_btn"
+            android:layout_toRightOf="@+id/sendComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="send"
+            tools:ignore="HardcodedText"
+            android:layout_weight="1" />
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

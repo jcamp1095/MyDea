@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,8 +38,10 @@ import java.util.List;
 @SuppressWarnings("DefaultFileTemplate")
 public class MyDialogFragment extends DialogFragment {
 
-    private List<String> listDataHeader;
-    private HashMap<String, List<String>> listDataChild;
+    private List<String> listDataHeader = new ArrayList<>();
+    private HashMap<String, List<String>> listDataChild = new HashMap<>();
+    List<String> comments_list = new ArrayList<>();
+
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -46,10 +49,10 @@ public class MyDialogFragment extends DialogFragment {
         View rootView = inflater.inflate(R.layout.fragment_sample_dialog, container, false);
 
         final String title = getArguments().getString("title");
-        String author = getArguments().getString("author");
+        final String author = getArguments().getString("author");
         String description = getArguments().getString("description");
         final String author_id = getArguments().getString("author_id");
-        String comments = getArguments().getString("comments");
+        final String comments = getArguments().getString("comments");
 
 
         getDialog().setTitle(title);
@@ -58,7 +61,7 @@ public class MyDialogFragment extends DialogFragment {
         TextView title_view = (TextView) rootView.findViewById(R.id.title);
         TextView author_view = (TextView) rootView.findViewById(R.id.author);
         TextView description_view = (TextView) rootView.findViewById(R.id.description);
-        ExpandableListView exlistView = (ExpandableListView) rootView.findViewById(R.id.lvExp);
+        final ExpandableListView exlistView = (ExpandableListView) rootView.findViewById(R.id.lvExp);
 
         title_view.setText(title);
         author_view.setText(author);
@@ -72,8 +75,29 @@ public class MyDialogFragment extends DialogFragment {
                 dismiss();
             }
         });
-
+        Log.v("comments", comments);
         set_up_comments(exlistView, comments);
+
+
+
+        final JSONObject comment_obj = new JSONObject();
+        Button comment_button = (Button) rootView.findViewById(R.id.comment_btn);
+        comment_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText comment = (EditText)getView().findViewById(R.id.sendComment);
+                String comment_str = comment.getText().toString();
+                try {
+                    comment_obj.put("comments", comment_str);
+                    comment_obj.put("idea_name", title);
+                    comment_obj.put("user_name", author);
+                    postComment(comment_obj);
+                    append_comment(comment_str, comments, exlistView);
+                    comment.setText("");
+                }
+                catch (JSONException e) {Log.v("LoginActivity", e.toString());}
+            }
+        });
 
         final JSONObject object = new JSONObject();
         try {
@@ -87,6 +111,7 @@ public class MyDialogFragment extends DialogFragment {
                     dismiss();
                 }
             });
+
             Button message = (Button) rootView.findViewById(R.id.message);
             message.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -112,11 +137,72 @@ public class MyDialogFragment extends DialogFragment {
         return rootView;
     }
 
+    private void append_comment(String comment_str, String comments, ExpandableListView exlistView) {
+        /*String new_comment = comments.substring(0, comments.length() - 1);
+        new_comment += ',';
+        new_comment += '"';
+        new_comment += comment_str;
+        new_comment += '"';
+        new_comment += ']';
+        Log.v("new comment:", new_comment);*/
+
+        comments_list.add(comment_str);
+        listDataChild.put(listDataHeader.get(0), comments_list);
+        ExpandableListAdapter listAdapter = new ExpandableListAdapter(getContext(), listDataHeader, listDataChild);
+
+        // setting list adapter
+        exlistView.setAdapter(listAdapter);
+
+    }
     private void postLike(final JSONObject object) {
         Thread t = new Thread(new Runnable() {
             public void run() {
                 try {
                     String query = "https://mydea-db.herokuapp.com/likes";
+
+                    URL url = new URL(query);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setConnectTimeout(5000);
+                    conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+                    conn.setRequestMethod("POST");
+
+                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                    wr.write(object.toString());
+                    Log.v("POSTING", object.toString());
+                    wr.flush();
+
+                    if (conn.getResponseCode() != 200) {
+                        throw new RuntimeException("Failed : HTTP error code : "
+                                + conn.getResponseCode());
+                    }
+
+                    BufferedReader br = new BufferedReader(new InputStreamReader(
+                            (conn.getInputStream())));
+
+                    String output;
+                    System.out.println("Output from Server .... \n");
+                    while ((output = br.readLine()) != null) {
+                        System.out.println(output);
+                    }
+
+                    conn.disconnect();
+
+                }
+                catch (IOException e) {
+                    Log.v("LoginActivity", e.toString());}
+            }
+        });
+
+        t.start();
+    }
+
+    private void postComment(final JSONObject object) {
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    String query = "https://mydea-db.herokuapp.com/comment";
 
                     URL url = new URL(query);
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -166,18 +252,19 @@ public class MyDialogFragment extends DialogFragment {
         exlistView.setAdapter(listAdapter);
     }
 
+
     /*
      * Preparing the list data
      */
     private void prepareListData(String comments_add) {
-        listDataHeader = new ArrayList<>();
-        listDataChild = new HashMap<>();
+        //listDataHeader = new ArrayList<>();
+        //listDataChild = new HashMap<>();
 
         // Adding child data
         listDataHeader.add("Comments");
 
         // Adding child data
-        List<String> comments = new ArrayList<>();
+        //List<String> comments = new ArrayList<>();
         for (int i  = 1; i < comments_add.length(); i++) {
             String to_add = "";
             while (comments_add.charAt(i) != ',' && comments_add.charAt(i) != ']'){
@@ -187,9 +274,9 @@ public class MyDialogFragment extends DialogFragment {
                 i++;
             }
             Log.v("to_add", to_add);
-            comments.add(to_add);
+            comments_list.add(to_add);
         }
 
-        listDataChild.put(listDataHeader.get(0), comments);
+        listDataChild.put(listDataHeader.get(0), comments_list);
     }
 }
