@@ -127,10 +127,13 @@ public class NaviActivity extends AppCompatActivity
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.layout_for_fragments, DiscoverFragment).addToBackStack(null).commit();
         } else if (id == R.id.nav_shareidea) {
-            Log.v("asd","GOT HERE");
             InputFragment InputFragment = new InputFragment();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.layout_for_fragments, InputFragment).addToBackStack(null).commit();
+        } else if (id == R.id.nav_myidea) {
+            MyIdeaFragment MyIdeaFragment = new MyIdeaFragment();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.layout_for_fragments, MyIdeaFragment).addToBackStack(null).commit();
         } else if (id == R.id.nav_staridea) {
 
         } else if (id == R.id.nav_messages) {
