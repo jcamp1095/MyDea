@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,15 +39,19 @@ import java.util.List;
 @SuppressWarnings("DefaultFileTemplate")
 public class MyDialogFragment extends DialogFragment {
 
+
     private List<String> listDataHeader = new ArrayList<>();
     private HashMap<String, List<String>> listDataChild = new HashMap<>();
     List<String> comments_list = new ArrayList<>();
+
+    ScrollView scrollView;
 
 
     @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_sample_dialog, container, false);
+        scrollView = (ScrollView) rootView.findViewById(R.id.scrollViewDrawer);
 
         final String title = getArguments().getString("title");
         final String author = getArguments().getString("author");
@@ -54,9 +59,7 @@ public class MyDialogFragment extends DialogFragment {
         final String author_id = getArguments().getString("author_id");
         final String comments = getArguments().getString("comments");
 
-
         getDialog().setTitle(title);
-
 
         TextView title_view = (TextView) rootView.findViewById(R.id.title);
         TextView author_view = (TextView) rootView.findViewById(R.id.author);
@@ -116,7 +119,7 @@ public class MyDialogFragment extends DialogFragment {
             message.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    @SuppressWarnings("ArraysAsListWithZeroOrOneArgument") List<String> userIds = Collections.singletonList(author_id);
+                    List<String> userIds = Collections.singletonList(author_id);
                     GroupChannel.createChannelWithUserIds(userIds, false, title, null, null, new GroupChannel.GroupChannelCreateHandler() {
                         @Override
                         public void onResult(GroupChannel groupChannel, SendBirdException e) {
@@ -250,8 +253,54 @@ public class MyDialogFragment extends DialogFragment {
 
         // setting list adapter
         exlistView.setAdapter(listAdapter);
+
+        exlistView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v,
+                                        int groupPosition, long id) {
+                setListViewHeight(parent, groupPosition);
+                return false;
+            }
+        });
     }
 
+
+    private void setListViewHeight(ExpandableListView listView,
+                                   int group) {
+        ExpandableListAdapter listAdapter = (ExpandableListAdapter) listView.getExpandableListAdapter();
+        int totalHeight = 0;
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(),
+                View.MeasureSpec.EXACTLY);
+        for (int i = 0; i < listAdapter.getGroupCount(); i++) {
+            View groupItem = listAdapter.getGroupView(i, false, null, listView);
+            groupItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+
+            totalHeight += groupItem.getMeasuredHeight();
+
+            if (((listView.isGroupExpanded(i)) && (i != group))
+                    || ((!listView.isGroupExpanded(i)) && (i == group))) {
+                for (int j = 0; j < listAdapter.getChildrenCount(i); j++) {
+                    View listItem = listAdapter.getChildView(i, j, false, null,
+                            listView);
+                    listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+
+                    totalHeight += listItem.getMeasuredHeight();
+
+                }
+            }
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        int height = totalHeight
+                + (listView.getDividerHeight() * (listAdapter.getGroupCount() - 1));
+        if (height < 10)
+            height = 200;
+        params.height = height;
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+
+    }
 
     /*
      * Preparing the list data
