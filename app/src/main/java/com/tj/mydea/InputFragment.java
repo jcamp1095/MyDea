@@ -19,7 +19,6 @@ import org.json.JSONObject;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 
-
 @SuppressWarnings("EmptyMethod")
 public class InputFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
@@ -69,6 +68,16 @@ public class InputFragment extends Fragment implements View.OnClickListener {
         NaviActivity activity = (NaviActivity) getActivity();
         Spinner spinner1 = (Spinner) getView().findViewById(R.id.spinner1);
         String spinner_str = spinner1.getSelectedItem().toString();
+
+        if (spinner_str == "@string/category_prompt") {
+            Context context = getApplicationContext();
+            CharSequence text = "Please select a category!";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+            return;
+        }
 
         String user_id = activity.get_user_id();
         String user_name = activity.get_user_name();

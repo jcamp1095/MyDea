@@ -12,9 +12,10 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import com.facebook.login.LoginManager;
 
 
 public class NaviActivity extends AppCompatActivity
@@ -94,12 +95,12 @@ public class NaviActivity extends AppCompatActivity
         }
     }
 
-    @Override
+   /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.navi, menu);
         return true;
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -134,14 +135,12 @@ public class NaviActivity extends AppCompatActivity
             MyIdeaFragment MyIdeaFragment = new MyIdeaFragment();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.layout_for_fragments, MyIdeaFragment).addToBackStack(null).commit();
-        } else if (id == R.id.nav_staridea) {
-
         } else if (id == R.id.nav_messages) {
             Intent intent = new Intent(NaviActivity.this, MessageFragment.class);
             startActivity(intent);
         } else if (id == R.id.nav_login) {
+            LoginManager.getInstance().logOut();
             Intent intent = new Intent(NaviActivity.this, LoginActivity.class);
-            intent.putExtra("manual", true);
             startActivity(intent);
         }
 

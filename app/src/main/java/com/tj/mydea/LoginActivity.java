@@ -22,7 +22,6 @@ import com.sendbird.android.SendBird;
 import com.sendbird.android.SendBirdException;
 import com.sendbird.android.User;
 
-import io.fabric.sdk.android.Fabric;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,27 +31,23 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
 
+import io.fabric.sdk.android.Fabric;
+
 public class LoginActivity extends AppCompatActivity {
 
     private CallbackManager callbackManager;
-
-    private Boolean manual = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
-        Intent intent = getIntent();
-        Bundle b = intent.getExtras();
-        if (b != null) {
-            manual = (Boolean) b.get("manual");
-        }
+        //Intent intent = getIntent();
         SendBird.init("8C25C95D-2021-4A1D-B6C3-77C8E14EF727", LoginActivity.this);
         FacebookSdk.sdkInitialize(getApplicationContext(), new FacebookSdk.InitializeCallback() {
             @Override
             public void onInitialized() {
-                if(AccessToken.getCurrentAccessToken() != null && manual != null && !manual) {
-                    Log.v("hey", "already logged in");
+                if(AccessToken.getCurrentAccessToken() != null) {
+                    Log.v("GOOD", "logged in");
                     GraphRequest request = GraphRequest.newMeRequest(
                             AccessToken.getCurrentAccessToken(),
                             new GraphRequest.GraphJSONObjectCallback() {
@@ -79,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                     parameters.putString("fields", "id,name,email");
                     request.setParameters(parameters);
                     request.executeAsync();
-                } else {Log.v("WARNING", "!!!!!");}
+                } else {Log.v("WARNING", "Not logged in");}
             }
         });
 

@@ -9,29 +9,24 @@
             android:title="Discover"
             tools:ignore="HardcodedText" />
         <item
-            android:id="@+id/nav_shareidea"
-            android:icon="@drawable/ic_shopping_basket_black_48px"
-            android:title="Share Idea"
-            tools:ignore="HardcodedText" />
-        <item
             android:id="@+id/nav_myidea"
-            android:icon="@drawable/ic_shopping_basket_black_48px"
+            android:icon="@drawable/ic_folder_shared_black_24dp"
             android:title="My Ideas"
             tools:ignore="HardcodedText" />
         <item
+            android:id="@+id/nav_shareidea"
+            android:icon="@drawable/ic_lightbulb_outline_black_24dp"
+            android:title="Share Idea"
+            tools:ignore="HardcodedText" />
+        <!--item
             android:id="@+id/nav_staridea"
             android:icon="@drawable/ic_stars_black_48px"
             android:title="Starred Ideas"
-            tools:ignore="HardcodedText" />
+            tools:ignore="HardcodedText" /!-->
         <item
             android:id="@+id/nav_messages"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_textsms_black_24dp"
             android:title="Messages"
-            tools:ignore="HardcodedText" />
-        <item
-            android:id="@+id/nav_login"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Logout"
             tools:ignore="HardcodedText" />
     </group>
 
@@ -39,14 +34,9 @@
         tools:ignore="HardcodedText">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Categories"
-                tools:ignore="HardcodedText" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="About"
+                android:id="@+id/nav_login"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="Logout"
                 tools:ignore="HardcodedText" />
         </menu>
     </item>

@@ -74,13 +74,15 @@ public class DiscoverFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         discoverRecyclerView.setLayoutManager(layoutManager);
         discoverRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(getResources()));
-        //updateUI();
+        updateUI();
         return view;
     }
 
     private void updateUI() {
         ideaAdapter adapter = new ideaAdapter(ideas);
-        discoverRecyclerView.setAdapter(adapter);
+        if (adapter != null) {
+            discoverRecyclerView.setAdapter(adapter);
+        }
     }
 
 
@@ -230,7 +232,6 @@ public class DiscoverFragment extends Fragment {
             InputStream in = new BufferedInputStream(
                     urlConnection.getInputStream());
             String response =  getResponseText(in);
-            Log.v("test", response);
             return new JSONArray(response);
             //return new JSONObject(getResponseText(in));
 
@@ -280,7 +281,6 @@ public class DiscoverFragment extends Fragment {
             return requestWebService(strings[0]);
         }
         protected void onPostExecute(JSONArray result) {
-            Log.v("test", result.toString());
             int num_entries = get_num_objects(result);
             try {
                 for (int i = 0; i < num_entries; i++) {

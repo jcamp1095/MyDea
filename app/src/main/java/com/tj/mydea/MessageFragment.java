@@ -166,18 +166,6 @@ public class MessageFragment extends FragmentActivity {
             }
         });
 
-        findViewById(R.id.btn_version).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(MessageFragment.this)
-                        .setTitle("SendBird")
-                        .setMessage("SendBird SDK " + SendBird.getSDKVersion())
-                        .setPositiveButton("OK", null).create().show();
-
-                mSettingsContainer.setVisibility(View.GONE);
-            }
-        });
-
         resizeMenubar();
     }
 

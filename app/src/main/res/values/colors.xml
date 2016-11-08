@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#00b4b4</color>
-    <color name="colorPrimaryDark">#009b9b</color>
+    <color name="colorPrimary">#104E8B</color>
+    <color name="colorPrimaryDark">#0A345C</color>
     <color name="colorAccent">#000000</color>
-    <color name="sendbird_purple_color">#824096</color>
+    <color name="sendbird_purple_color">#104E8B</color>
 </resources>
