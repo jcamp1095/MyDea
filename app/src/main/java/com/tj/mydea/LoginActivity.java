@@ -38,6 +38,9 @@ public class LoginActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
 
     @Override
+    public void onBackPressed() {
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
@@ -47,7 +50,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onInitialized() {
                 if(AccessToken.getCurrentAccessToken() != null) {
-                    Log.v("GOOD", "logged in");
                     GraphRequest request = GraphRequest.newMeRequest(
                             AccessToken.getCurrentAccessToken(),
                             new GraphRequest.GraphJSONObjectCallback() {
@@ -98,7 +100,6 @@ public class LoginActivity extends AppCompatActivity {
                                             object.remove("id");
                                             object.put("user_name", object.get("name"));
                                             object.remove("name");
-                                            Log.v("LoginActivity", object.toString());
                                             postUser(object);
                                             connect_to_sendbird(object.get("user_id").toString(), object.get("user_name").toString());
                                             Intent intent = new Intent(LoginActivity.this, NaviActivity.class);

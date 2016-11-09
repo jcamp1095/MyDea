@@ -80,7 +80,7 @@ public class DiscoverFragment extends Fragment {
 
     private void updateUI() {
         ideaAdapter adapter = new ideaAdapter(ideas);
-        if (adapter != null) {
+        if (discoverRecyclerView != null) {
             discoverRecyclerView.setAdapter(adapter);
         }
     }

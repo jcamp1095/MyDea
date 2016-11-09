@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Objects;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -68,10 +71,28 @@ public class InputFragment extends Fragment implements View.OnClickListener {
         NaviActivity activity = (NaviActivity) getActivity();
         Spinner spinner1 = (Spinner) getView().findViewById(R.id.spinner1);
         String spinner_str = spinner1.getSelectedItem().toString();
-
-        if (spinner_str == "@string/category_prompt") {
+        Log.v("submit", spinner_str);
+        if (Objects.equals(title_str, "")) {
             Context context = getApplicationContext();
-            CharSequence text = "Please select a category!";
+            CharSequence text = "Please enter a title.";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+            return;
+        }
+        if (Objects.equals(description_str, "")) {
+            Context context = getApplicationContext();
+            CharSequence text = "Please enter a description.";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+            return;
+        }
+        if (Objects.equals(spinner_str, "Choose a Category…")) {
+            Context context = getApplicationContext();
+            CharSequence text = "Please select a category.";
             int duration = Toast.LENGTH_SHORT;
 
             Toast toast = Toast.makeText(context, text, duration);

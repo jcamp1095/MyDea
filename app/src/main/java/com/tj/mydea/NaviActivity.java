@@ -44,12 +44,9 @@ public class NaviActivity extends AppCompatActivity
         Bundle b = intent.getExtras();
         if (b != null) {
             user_id = (String) b.get("user_id");
-            Log.v("profile", user_id);
             user_name = (String) b.get("user_name");
-            Log.v("profile", user_name);
             email = (String) b.get("email");
            // imageURI = (String) b.get("imageURI");
-            Log.v("profile", email);
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -66,7 +63,7 @@ public class NaviActivity extends AppCompatActivity
         mHandler.postDelayed(mUpdateUITimerTask, 2 * 1000);
         DiscoverFragment DiscoverFragment = new DiscoverFragment();
         FragmentManager manager = getSupportFragmentManager();
-        manager.beginTransaction().replace(R.id.layout_for_fragments, DiscoverFragment).addToBackStack(null).commit();
+        manager.beginTransaction().replace(R.id.layout_for_fragments, DiscoverFragment).commit();
     }
 
     /*@Override
@@ -126,11 +123,17 @@ public class NaviActivity extends AppCompatActivity
         if (id == R.id.nav_discover) {
             DiscoverFragment DiscoverFragment = new DiscoverFragment();
             FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().replace(R.id.layout_for_fragments, DiscoverFragment).addToBackStack(null).commit();
+            manager.beginTransaction().replace(R.id.layout_for_fragments, DiscoverFragment).addToBackStack("discover").commit();
+            /*boolean fragmentPopped = manager.popBackStackImmediate ("discover", 0);
+
+            if (!fragmentPopped){ //fragment not in back stack, create it.
+                manager.beginTransaction().replace(R.id.layout_for_fragments, DiscoverFragment).addToBackStack("discover").commit();
+
+            }*/
         } else if (id == R.id.nav_shareidea) {
             InputFragment InputFragment = new InputFragment();
             FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().replace(R.id.layout_for_fragments, InputFragment).addToBackStack(null).commit();
+            manager.beginTransaction().replace(R.id.layout_for_fragments, InputFragment).addToBackStack("shareidea").commit();
         } else if (id == R.id.nav_myidea) {
             MyIdeaFragment MyIdeaFragment = new MyIdeaFragment();
             FragmentManager manager = getSupportFragmentManager();
