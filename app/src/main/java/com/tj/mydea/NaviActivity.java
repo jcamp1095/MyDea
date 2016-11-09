@@ -63,7 +63,7 @@ public class NaviActivity extends AppCompatActivity
         mHandler.postDelayed(mUpdateUITimerTask, 2 * 1000);
         DiscoverFragment DiscoverFragment = new DiscoverFragment();
         FragmentManager manager = getSupportFragmentManager();
-        manager.beginTransaction().replace(R.id.layout_for_fragments, DiscoverFragment).commit();
+        manager.beginTransaction().replace(R.id.layout_for_fragments, DiscoverFragment).addToBackStack("discover").commit();
     }
 
     /*@Override
@@ -83,9 +83,12 @@ public class NaviActivity extends AppCompatActivity
         }*/
         FragmentManager fm = getSupportFragmentManager();
         Log.v("fragment", Integer.toString(fm.getBackStackEntryCount()));
-        if (fm.getBackStackEntryCount() > 0) {
+        if (fm.getBackStackEntryCount() > 1) {
             Log.i("MainActivity", "popping backstack");
             fm.popBackStack();
+        } else if (fm.getBackStackEntryCount() == 1) {
+            Log.i("MainActivity", "finishing");
+            finish();
         } else {
             Log.i("MainActivity", "nothing on backstack, calling super");
             super.onBackPressed();
@@ -123,13 +126,14 @@ public class NaviActivity extends AppCompatActivity
         if (id == R.id.nav_discover) {
             DiscoverFragment DiscoverFragment = new DiscoverFragment();
             FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().replace(R.id.layout_for_fragments, DiscoverFragment).addToBackStack("discover").commit();
-            /*boolean fragmentPopped = manager.popBackStackImmediate ("discover", 0);
-
-            if (!fragmentPopped){ //fragment not in back stack, create it.
+            //manager.beginTransaction().replace(R.id.layout_for_fragments, DiscoverFragment).addToBackStack("discover").commit();
+            Log.v("nav", Integer.toString(manager.getBackStackEntryCount()));
+            FragmentManager.BackStackEntry last_frag = manager.getBackStackEntryAt(manager.getBackStackEntryCount() - 1);
+            if (last_frag != null && last_frag.getName() != "discover"){ //fragment not in back stack, create it.
                 manager.beginTransaction().replace(R.id.layout_for_fragments, DiscoverFragment).addToBackStack("discover").commit();
-
-            }*/
+            } else {
+                manager.beginTransaction().replace(R.id.layout_for_fragments, DiscoverFragment).commit();
+            }
         } else if (id == R.id.nav_shareidea) {
             InputFragment InputFragment = new InputFragment();
             FragmentManager manager = getSupportFragmentManager();
