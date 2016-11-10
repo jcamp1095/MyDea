@@ -78,7 +78,6 @@ public class MyDialogFragment extends DialogFragment {
         set_up_comments(exlistView, comments);
 
 
-
         final JSONObject comment_obj = new JSONObject();
         Button comment_button = (Button) rootView.findViewById(R.id.comment_btn);
         comment_button.setOnClickListener(new View.OnClickListener() {
@@ -107,15 +106,6 @@ public class MyDialogFragment extends DialogFragment {
         try {
             object.put("idea_name", title);
             object.put("user_name", author);
-            Button like = (Button) rootView.findViewById(R.id.like);
-            like.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Post post = new Post();
-                    post.send(object, "/likes");
-                    dismiss();
-                }
-            });
 
             Button message = (Button) rootView.findViewById(R.id.message);
             message.setOnClickListener(new View.OnClickListener() {

@@ -78,8 +78,6 @@ public class MessageFragment extends FragmentActivity {
 
         initFragment();
         initUIComponents();
-
-        Toast.makeText(this, "Long press the channel to hide or leave it.", Toast.LENGTH_LONG).show();
     }
 
     @SuppressWarnings("EmptyMethod")

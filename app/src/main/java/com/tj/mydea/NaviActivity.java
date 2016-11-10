@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import com.facebook.login.LoginManager;
 
+import java.util.Objects;
+
 
 public class NaviActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -86,12 +88,9 @@ public class NaviActivity extends AppCompatActivity
         if (fm.getBackStackEntryCount() > 1) {
             Log.i("MainActivity", "popping backstack");
             fm.popBackStack();
-        } else if (fm.getBackStackEntryCount() == 1) {
-            Log.i("MainActivity", "finishing");
-            finish();
         } else {
             Log.i("MainActivity", "nothing on backstack, calling super");
-            super.onBackPressed();
+            finish();
         }
     }
 
@@ -126,22 +125,33 @@ public class NaviActivity extends AppCompatActivity
         if (id == R.id.nav_discover) {
             DiscoverFragment DiscoverFragment = new DiscoverFragment();
             FragmentManager manager = getSupportFragmentManager();
-            //manager.beginTransaction().replace(R.id.layout_for_fragments, DiscoverFragment).addToBackStack("discover").commit();
-            Log.v("nav", Integer.toString(manager.getBackStackEntryCount()));
-            FragmentManager.BackStackEntry last_frag = manager.getBackStackEntryAt(manager.getBackStackEntryCount() - 1);
-            if (last_frag != null && last_frag.getName() != "discover"){ //fragment not in back stack, create it.
-                manager.beginTransaction().replace(R.id.layout_for_fragments, DiscoverFragment).addToBackStack("discover").commit();
-            } else {
-                manager.beginTransaction().replace(R.id.layout_for_fragments, DiscoverFragment).commit();
+            if (manager.getBackStackEntryCount() > 0) {
+                if (Objects.equals(manager.getBackStackEntryAt(manager.getBackStackEntryCount() - 1).getName(), "discover")) {
+                    Log.v("here", "tell me why");
+                    manager.popBackStackImmediate();
+                }
             }
+            manager.beginTransaction().replace(R.id.layout_for_fragments, DiscoverFragment).addToBackStack("discover").commit();
         } else if (id == R.id.nav_shareidea) {
             InputFragment InputFragment = new InputFragment();
             FragmentManager manager = getSupportFragmentManager();
+            if (manager.getBackStackEntryCount() > 0) {
+                if (Objects.equals(manager.getBackStackEntryAt(manager.getBackStackEntryCount() - 1).getName(), "shareidea")) {
+                    Log.v("here", "tell me why");
+                    manager.popBackStackImmediate();
+                }
+            }
             manager.beginTransaction().replace(R.id.layout_for_fragments, InputFragment).addToBackStack("shareidea").commit();
         } else if (id == R.id.nav_myidea) {
             MyIdeaFragment MyIdeaFragment = new MyIdeaFragment();
             FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().replace(R.id.layout_for_fragments, MyIdeaFragment).addToBackStack(null).commit();
+            if (manager.getBackStackEntryCount() > 0) {
+                if (Objects.equals(manager.getBackStackEntryAt(manager.getBackStackEntryCount() - 1).getName(), "myidea")) {
+                    Log.v("here", "tell me why");
+                    manager.popBackStackImmediate();
+                }
+            }
+            manager.beginTransaction().replace(R.id.layout_for_fragments, MyIdeaFragment).addToBackStack("myidea").commit();
         } else if (id == R.id.nav_messages) {
             Intent intent = new Intent(NaviActivity.this, MessageFragment.class);
             startActivity(intent);

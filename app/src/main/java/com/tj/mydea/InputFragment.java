@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,12 +64,14 @@ public class InputFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        NaviActivity activity = (NaviActivity) getActivity();
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        //noinspection ConstantConditions
+        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
         @SuppressWarnings("ConstantConditions") EditText title = (EditText)getView().findViewById(R.id.editTitle);
         EditText description = (EditText)getView().findViewById(R.id.editDescription);
         String title_str = title.getText().toString();
         String description_str = description.getText().toString();
-
-        NaviActivity activity = (NaviActivity) getActivity();
         Spinner spinner1 = (Spinner) getView().findViewById(R.id.spinner1);
         String spinner_str = spinner1.getSelectedItem().toString();
         Log.v("submit", spinner_str);
@@ -127,27 +130,16 @@ public class InputFragment extends Fragment implements View.OnClickListener {
             }
         });*/
 
-        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        //noinspection ConstantConditions
-        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
-
         Context context = getApplicationContext();
         CharSequence text = "Idea Sent!";
         int duration = Toast.LENGTH_SHORT;
 
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
+        DiscoverFragment DiscoverFragment = new DiscoverFragment();
+        FragmentManager manager = getFragmentManager();
+        manager.beginTransaction().replace(R.id.layout_for_fragments, DiscoverFragment).addToBackStack("discover").commit();
     }
-
-
-    // TODO: Rename method, update argument and hook method into UI event
-    @SuppressWarnings("unused")
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
 
     /*@Override
     public void onAttach(Context context) {
