@@ -12,7 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -134,7 +134,7 @@ public class DiscoverFragment extends Fragment {
             descriptionTextView.setText(id.getdescription());
             dateTextView.setText("Posted: " + id.getdate());
             categoryTextView.setText(id.getcategory());
-            likeTextView.setText("Likes: " + Integer.toString(id.getlike()));
+            likeTextView.setText(Integer.toString(id.getlike()));
             authoridTextView.setText(id.getauthor_id());
             commentsTextView.setText(id.getcomments());
         }
@@ -164,7 +164,7 @@ public class DiscoverFragment extends Fragment {
             try {
                 object.put("idea_name", id.getideaName());
                 object.put("user_name", id.getauthor());
-                final Button like_button = (Button) holder_v.findViewById(R.id.like_it);
+                final ImageButton like_button = (ImageButton) holder_v.findViewById(R.id.like_it);
                 like_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -172,14 +172,14 @@ public class DiscoverFragment extends Fragment {
                         post.send(object, "/likes");
                         TextView likeTextView = (TextView) holder_v.findViewById(R.id.textview_like);
                         String likes = likeTextView.getText().toString();
-                        int like_int = 0;
-                        for (int i  = 0; i < likes.length(); i++){
+                        int like_int = Integer.parseInt(likes);
+                        /*for (int i  = 0; i < likes.length(); i++){
                             if (likes.charAt(i) == ' '){
                                 like_int = Integer.parseInt(likes.substring(i+1));
                                 break;
                             }
-                        }
-                        likeTextView.setText("Likes: " + Integer.toString(like_int + 1));
+                        }*/
+                        likeTextView.setText(Integer.toString(like_int + 1));
                     }
                 });
             }

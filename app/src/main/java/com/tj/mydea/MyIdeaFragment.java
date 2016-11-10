@@ -13,7 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -162,7 +162,7 @@ public class MyIdeaFragment extends Fragment {
             try {
                 object.put("idea_name", id.getideaName());
                 object.put("user_name", id.getauthor());
-                final Button like_button = (Button) holder_v.findViewById(R.id.like_it);
+                final ImageButton like_button = (ImageButton) holder_v.findViewById(R.id.like_it);
                 like_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

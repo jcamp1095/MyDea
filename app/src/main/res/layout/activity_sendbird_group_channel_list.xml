@@ -65,7 +65,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#f0f1f2"
-            />
+            >
+
+            <TextView
+                android:id="@+id/TextViewId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Long press a channel to hide or leave it."
+                android:textAlignment="center"
+                android:layout_marginBottom="30dp"
+                android:textSize="14dp"
+                android:layout_gravity="center_horizontal|bottom"/>
+        </FrameLayout>
     </FrameLayout>
 
     <LinearLayout
@@ -94,5 +105,6 @@
             android:background="#ededed"
             />
     </LinearLayout>
+
 </RelativeLayout>
 

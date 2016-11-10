@@ -31,6 +31,7 @@
             android:textSize="22dp"
             android:textAlignment="inherit"
             android:textStyle="normal|bold"
+            android:textColor="@color/colorPrimaryDark"
             tools:ignore="HardcodedText,SpUsage" />
 
 
@@ -39,33 +40,37 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Lorem ipsum dolor sit amet..."
-            android:textSize="20dp"
+            android:textSize="16dp"
             android:textAlignment="inherit"
             tools:ignore="HardcodedText,SpUsage" />
 
         <TextView
+            android:layout_marginTop="10dp"
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Lorem ipsum dolor sit amet..."
-            android:textSize="20dp"
-            android:textAlignment="inherit"
             android:bufferType="normal"
-            tools:ignore="HardcodedText,SpUsage" />
+            tools:ignore="HardcodedText,SpUsage"
+            android:fontFamily="sans-serif" />
         <ExpandableListView
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:id="@+id/lvExp"
+            android:background="@android:color/transparent"
+            android:cacheColorHint="@android:color/transparent"
             android:layout_height="wrap_content"
             android:minHeight="200dp">
+
         </ExpandableListView>
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/main"
             android:layout_width="fill_parent"
             android:layout_below="@+id/lvExp"
-            android:layout_height="fill_parent" >
+            android:layout_height="fill_parent"
+            android:layout_marginTop="10dp">
             <EditText
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:hint="Add a comment..."
                 android:ems="10"
@@ -74,33 +79,27 @@
             <Button
                 android:id="@+id/comment_btn"
                 android:layout_toRightOf="@+id/sendComment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_margin="10dp"
+                android:layout_width="75dp"
+                android:layout_height="30dp"
+                android:background="@drawable/round_button2"
+                android:cacheColorHint="@drawable/round_button2"
                 android:text="send"
                 tools:ignore="HardcodedText"
-                android:layout_weight="1" />
+                android:textColor="@color/colorPrimary"
+                android:layout_alignBottom="@+id/sendComment" />
         </RelativeLayout>
-
-        <LinearLayout
+        <Button
+            android:layout_marginTop="10dp"
+            android:id="@+id/message"
             android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:gravity="center|bottom"
-            android:orientation="vertical" >
-            <Button
-                android:id="@+id/message"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Message Author"
-                tools:ignore="HardcodedText" />
-
-            <Button
-                android:id="@+id/like"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Like"
-                tools:ignore="HardcodedText" />
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/round_button"
+            android:cacheColorHint="@drawable/round_button"
+            android:text="Message Author"
+            tools:ignore="HardcodedText" />
 
 
     </LinearLayout>
