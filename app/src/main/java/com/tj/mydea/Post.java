@@ -32,7 +32,6 @@ public class Post {
 
                     OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
                     wr.write(object.toString());
-                    Log.v("POSTING", object.toString());
                     wr.flush();
 
                     if (conn.getResponseCode() != 200) {

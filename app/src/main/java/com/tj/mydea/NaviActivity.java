@@ -84,22 +84,12 @@ public class NaviActivity extends AppCompatActivity
             super.onBackPressed();
         }*/
         FragmentManager fm = getSupportFragmentManager();
-        Log.v("fragment", Integer.toString(fm.getBackStackEntryCount()));
         if (fm.getBackStackEntryCount() > 1) {
-            Log.i("MainActivity", "popping backstack");
             fm.popBackStack();
         } else {
-            Log.i("MainActivity", "nothing on backstack, calling super");
             finish();
         }
     }
-
-   /* @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.navi, menu);
-        return true;
-    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

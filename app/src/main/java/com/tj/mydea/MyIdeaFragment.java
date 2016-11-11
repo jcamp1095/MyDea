@@ -47,7 +47,6 @@ public class MyIdeaFragment extends Fragment {
     private final List<Integer> likes = new ArrayList<>();
     private final List<String> author_ids = new ArrayList<>();
     private final List<String> comments = new ArrayList<>();
-    //private List<String[]> comments = new ArrayList<>();
 
     private final ArrayList<Idea> ideas = new ArrayList<>();
     private RecyclerView discoverRecyclerView;
@@ -230,7 +229,6 @@ public class MyIdeaFragment extends Fragment {
             InputStream in = new BufferedInputStream(
                     urlConnection.getInputStream());
             String response =  getResponseText(in);
-            Log.v("test", response);
             return new JSONArray(response);
             //return new JSONObject(getResponseText(in));
 
@@ -290,7 +288,6 @@ public class MyIdeaFragment extends Fragment {
 
                     OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
                     wr.write(object.toString());
-                    Log.v("POSTING", object.toString());
                     wr.flush();
 
                     if (conn.getResponseCode() != 200) {

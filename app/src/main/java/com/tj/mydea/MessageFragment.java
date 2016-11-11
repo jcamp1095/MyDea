@@ -42,27 +42,6 @@ import java.util.Hashtable;
 import java.util.List;
 
 
-/*public class MessageFragment extends Fragment {
-    public MessageFragment() {
-        // Required empty public constructor
-    }
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        NaviActivity activity = (NaviActivity) getActivity();
-        String user_id = activity.get_user_id();
-
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_message, container, false);
-    }
-
-}*/
-@SuppressWarnings("EmptyMethod")
 public class MessageFragment extends FragmentActivity {
     private SendBirdGroupChannelListFragment mSendBirdGroupChannelListFragment;
 

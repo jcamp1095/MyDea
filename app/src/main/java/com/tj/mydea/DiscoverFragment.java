@@ -39,7 +39,6 @@ public class DiscoverFragment extends Fragment {
     private final List<Integer> likes = new ArrayList<>();
     private final List<String> author_ids = new ArrayList<>();
     private final List<String> comments = new ArrayList<>();
-    //private List<String[]> comments = new ArrayList<>();
 
     private final ArrayList<Idea> ideas = new ArrayList<>();
     private RecyclerView discoverRecyclerView;
@@ -173,12 +172,6 @@ public class DiscoverFragment extends Fragment {
                         TextView likeTextView = (TextView) holder_v.findViewById(R.id.textview_like);
                         String likes = likeTextView.getText().toString();
                         int like_int = Integer.parseInt(likes);
-                        /*for (int i  = 0; i < likes.length(); i++){
-                            if (likes.charAt(i) == ' '){
-                                like_int = Integer.parseInt(likes.substring(i+1));
-                                break;
-                            }
-                        }*/
                         likeTextView.setText(Integer.toString(like_int + 1));
                     }
                 });
@@ -191,24 +184,6 @@ public class DiscoverFragment extends Fragment {
             return mideas.size();
         }
     }
-
-
-    /*@Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }*/
 
     private static JSONArray requestWebService(String serviceUrl) {
         disableConnectionReuseIfNecessary();
@@ -258,8 +233,6 @@ public class DiscoverFragment extends Fragment {
     }
 
     private static String getResponseText(InputStream inStream) {
-        // very nice trick from
-        // http://weblogs.java.net/blog/pat/archive/2004/10/stupid_scanner_1.html
         return new Scanner(inStream).useDelimiter("\\A").next();
     }
 

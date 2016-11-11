@@ -44,7 +44,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
-        //Intent intent = getIntent();
         SendBird.init("8C25C95D-2021-4A1D-B6C3-77C8E14EF727", LoginActivity.this);
         FacebookSdk.sdkInitialize(getApplicationContext(), new FacebookSdk.InitializeCallback() {
             @Override
@@ -66,7 +65,6 @@ public class LoginActivity extends AppCompatActivity {
                                         intent.putExtra("user_id", (String) object.get("user_id"));
                                         intent.putExtra("user_name", (String) object.get("user_name"));
                                         intent.putExtra("email", (String) object.get("email"));
-                                       // intent.putExtra("imageURI", object.getJSONObject("picture").getJSONObject("data").getString("url"));
                                         startActivity(intent);
                                         finish();
                                     }
@@ -176,22 +174,12 @@ public class LoginActivity extends AppCompatActivity {
 
                     OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
                     wr.write(object.toString());
-                    Log.v("POSTING", object.toString());
                     wr.flush();
 
                     if (conn.getResponseCode() != 200) {
                         throw new RuntimeException("Failed : HTTP error code : "
                                 + conn.getResponseCode());
                     }
-
-                    /*BufferedReader br = new BufferedReader(new InputStreamReader(
-                            (conn.getInputStream())));*/
-
-                    /*String output;
-                    System.out.println("Output from Server .... \n");
-                    while ((output = br.readLine()) != null) {
-                        System.out.println(output);
-                    }*/
 
                     conn.disconnect();
 

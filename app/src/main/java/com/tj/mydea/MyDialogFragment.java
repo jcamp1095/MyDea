@@ -74,7 +74,6 @@ public class MyDialogFragment extends DialogFragment {
                 dismiss();
             }
         });
-        Log.v("comments", comments);
         set_up_comments(exlistView, comments);
 
 
@@ -207,14 +206,9 @@ public class MyDialogFragment extends DialogFragment {
      * Preparing the list data
      */
     private void prepareListData(String comments_add) {
-        //listDataHeader = new ArrayList<>();
-        //listDataChild = new HashMap<>();
-
-        // Adding child data
         listDataHeader.add("Comments");
 
         // Adding child data
-        //List<String> comments = new ArrayList<>();
         for (int i  = 1; i < comments_add.length(); i++) {
             String to_add = "";
             while (comments_add.charAt(i) != ',' && comments_add.charAt(i) != ']'){
@@ -223,7 +217,6 @@ public class MyDialogFragment extends DialogFragment {
                 }
                 i++;
             }
-            Log.v("to_add", to_add);
             comments_list.add(to_add);
         }
 

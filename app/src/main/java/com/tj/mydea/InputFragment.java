@@ -74,7 +74,6 @@ public class InputFragment extends Fragment implements View.OnClickListener {
         String description_str = description.getText().toString();
         Spinner spinner1 = (Spinner) getView().findViewById(R.id.spinner1);
         String spinner_str = spinner1.getSelectedItem().toString();
-        Log.v("submit", spinner_str);
         if (Objects.equals(title_str, "")) {
             Context context = getApplicationContext();
             CharSequence text = "Please enter a title.";
@@ -120,15 +119,7 @@ public class InputFragment extends Fragment implements View.OnClickListener {
         }
         title.setText("");
         description.setText("");
-        /*List<String> userIds = Collections.singletonList(user_id);
-        GroupChannel.createChannelWithUserIds(userIds, false, title_str, null, null, new GroupChannel.GroupChannelCreateHandler() {
-            @Override
-            public void onResult(GroupChannel groupChannel, SendBirdException e) {
-                if (e != null) {
-                    Toast.makeText(getActivity(), "" + e.getCode() + ":" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                } else {Log.v("create channel", "success");}
-            }
-        });*/
+
 
         Context context = getApplicationContext();
         CharSequence text = "Idea Sent!";
@@ -141,22 +132,6 @@ public class InputFragment extends Fragment implements View.OnClickListener {
         manager.beginTransaction().replace(R.id.layout_for_fragments, DiscoverFragment).addToBackStack("discover").commit();
     }
 
-    /*@Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }*/
 
     /**
      * This interface must be implemented by activities that contain this
