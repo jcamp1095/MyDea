@@ -143,6 +143,11 @@ public class NaviActivity extends AppCompatActivity
             Intent intent = new Intent(NaviActivity.this, MessageFragment.class);
             startActivity(intent);
         } else if (id == R.id.nav_login) {
+            FragmentManager manager = getSupportFragmentManager();
+            if (manager.getBackStackEntryCount() > 0) {
+                FragmentManager.BackStackEntry first = manager.getBackStackEntryAt(0);
+                manager.popBackStack(first.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            }
             LoginManager.getInstance().logOut();
             Intent intent = new Intent(NaviActivity.this, LoginActivity.class);
             startActivity(intent);
