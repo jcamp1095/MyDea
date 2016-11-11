@@ -7,11 +7,14 @@
 
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_text"
+        android:layout_width="75dp"
+        android:layout_height="40dp"
+        android:text="Send"
         android:id="@+id/send_idea_button"
         android:layout_alignParentRight="true"
+        android:background="@drawable/round_button"
+        android:cacheColorHint="@drawable/round_button"
+        android:textColor="#FFFFFF"
         tools:ignore="RelativeOverlap,RtlHardcoded" />
 
 
@@ -48,6 +51,7 @@
         android:layout_alignBaseline="@+id/send_idea_button"
         android:layout_alignBottom="@+id/send_idea_button"
         android:layout_alignParentStart="true"
+        android:textColor="@color/colorPrimaryDark"
         tools:ignore="HardcodedText"
         android:fontFamily="sans-serif-medium" />
 
