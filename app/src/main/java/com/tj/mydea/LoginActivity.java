@@ -68,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                                         intent.putExtra("email", (String) object.get("email"));
                                        // intent.putExtra("imageURI", object.getJSONObject("picture").getJSONObject("data").getString("url"));
                                         startActivity(intent);
+                                        finish();
                                     }
                                     catch (JSONException e) {Log.v("LoginActivity", e.toString());}
                                 }
@@ -107,6 +108,7 @@ public class LoginActivity extends AppCompatActivity {
                                             intent.putExtra("user_name", (String) object.get("user_name"));
                                             intent.putExtra("email", (String) object.get("email"));
                                             startActivity(intent);
+                                            finish();
                                         }
                                         catch (JSONException e) {Log.v("LoginActivity", e.toString());}
                                     }
