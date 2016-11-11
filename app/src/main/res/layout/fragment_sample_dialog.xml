@@ -70,7 +70,7 @@
             android:layout_height="fill_parent"
             android:layout_marginTop="10dp">
             <EditText
-                android:layout_width="250dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Add a comment..."
                 android:ems="10"
@@ -79,10 +79,11 @@
             <Button
                 android:id="@+id/comment_btn"
                 android:layout_toRightOf="@+id/sendComment"
+                android:layout_alignParentRight="true"
                 android:layout_marginLeft="10dp"
                 android:layout_margin="10dp"
                 android:layout_width="75dp"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:background="@drawable/round_button2"
                 android:cacheColorHint="@drawable/round_button2"
                 android:text="send"
