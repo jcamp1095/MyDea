@@ -127,7 +127,6 @@ public class NaviActivity extends AppCompatActivity
             FragmentManager manager = getSupportFragmentManager();
             if (manager.getBackStackEntryCount() > 0) {
                 if (Objects.equals(manager.getBackStackEntryAt(manager.getBackStackEntryCount() - 1).getName(), "discover")) {
-                    Log.v("here", "tell me why");
                     manager.popBackStackImmediate();
                 }
             }
@@ -137,7 +136,6 @@ public class NaviActivity extends AppCompatActivity
             FragmentManager manager = getSupportFragmentManager();
             if (manager.getBackStackEntryCount() > 0) {
                 if (Objects.equals(manager.getBackStackEntryAt(manager.getBackStackEntryCount() - 1).getName(), "shareidea")) {
-                    Log.v("here", "tell me why");
                     manager.popBackStackImmediate();
                 }
             }
@@ -147,7 +145,6 @@ public class NaviActivity extends AppCompatActivity
             FragmentManager manager = getSupportFragmentManager();
             if (manager.getBackStackEntryCount() > 0) {
                 if (Objects.equals(manager.getBackStackEntryAt(manager.getBackStackEntryCount() - 1).getName(), "myidea")) {
-                    Log.v("here", "tell me why");
                     manager.popBackStackImmediate();
                 }
             }
