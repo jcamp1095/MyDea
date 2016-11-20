@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">MyDea</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="title_activity_navi">MyDea</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="category_prompt">Choose a category</string>
+    <string-array name="categories">
+        <item>Choose a Category…</item>
+        <item>Technology</item>
+        <item>Sports</item>
+        <item>Food</item>
+        <item>Fashion</item>
+        <item>Applications</item>
+        <item>Other</item>
+    </string-array>
+    <string name="action_settings">Settings</string>
+    <string name="button_text">Send Idea</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="facebook_app_id">1203324506424669</string>
+
+    <string name="title_activity_sendbird">SendBird</string>
+</resources>

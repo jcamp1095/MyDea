@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:padding="5dp">
+    <TextView
+        android:paddingTop="0dp"
+        android:gravity="center_horizontal"
+        android:id="@+id/textview_ideaName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16dp" android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"
+        tools:ignore="SpUsage" />
+    <TextView
+        android:id="@+id/textview_author"
+        android:textSize="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textview_ideaName"
+        android:textColor="@color/colorPrimary"
+        tools:ignore="SpUsage" />
+    <TextView
+        android:id="@+id/textview_category"
+        android:textSize="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textview_ideaName"
+        android:layout_alignParentRight="true"
+        tools:ignore="RtlHardcoded,SpUsage" />
+    <TextView
+        android:id="@+id/textview_description"
+        android:paddingLeft="0dp"
+        android:textSize="14dp"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_below="@id/textview_author"
+        tools:ignore="RtlHardcoded,RtlSymmetry,SpUsage" />
+
+
+    <TextView
+        android:id="@+id/textview_author_id"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:visibility="invisible"/>
+    <TextView
+        android:id="@+id/textview_comments"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:visibility="invisible"/>
+
+    <ImageButton android:layout_width="25dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_star_black_24dp"
+        android:id="@+id/like_it"
+        android:layout_gravity="center"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_below="@id/textview_description"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+    <TextView
+        android:id="@+id/textview_like"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:textSize="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textview_description"
+        android:layout_toRightOf="@id/like_it"
+        android:layout_alignParentBottom="true"
+        tools:ignore="RtlHardcoded,RtlSymmetry,SpUsage" />
+    <TextView
+        android:id="@+id/textview_date"
+        android:textSize="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textview_description"
+        android:paddingTop="5dp"
+        android:layout_alignParentRight="true"
+        tools:ignore="RtlHardcoded,SpUsage" />
+
+</RelativeLayout>

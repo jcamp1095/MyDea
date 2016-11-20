@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_discover"
+            android:icon="@drawable/ic_view_list_black_48px"
+            android:title="Discover"
+            tools:ignore="HardcodedText" />
+        <item
+            android:id="@+id/nav_myidea"
+            android:icon="@drawable/ic_folder_shared_black_24dp"
+            android:title="My Ideas"
+            tools:ignore="HardcodedText" />
+        <item
+            android:id="@+id/nav_shareidea"
+            android:icon="@drawable/ic_lightbulb_outline_black_24dp"
+            android:title="Share Idea"
+            tools:ignore="HardcodedText" />
+        <!--item
+            android:id="@+id/nav_staridea"
+            android:icon="@drawable/ic_stars_black_48px"
+            android:title="Starred Ideas"
+            tools:ignore="HardcodedText" /!-->
+        <item
+            android:id="@+id/nav_messages"
+            android:icon="@drawable/ic_textsms_black_24dp"
+            android:title="Messages"
+            tools:ignore="HardcodedText" />
+    </group>
+
+    <item android:title="Settings"
+        tools:ignore="HardcodedText">
+        <menu>
+            <item
+                android:id="@+id/nav_login"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="Logout"
+                tools:ignore="HardcodedText" />
+        </menu>
+    </item>
+
+</menu>
