@@ -130,6 +130,15 @@ public class NaviActivity extends AppCompatActivity
                 }
             }
             manager.beginTransaction().replace(R.id.layout_for_fragments, MyIdeaFragment).addToBackStack("myidea").commit();
+        } else if (id == R.id.nav_favorites) {
+            FavoritesFragment FavoritesFragment = new FavoritesFragment();
+            FragmentManager manager = getSupportFragmentManager();
+            if (manager.getBackStackEntryCount() > 0) {
+                if (Objects.equals(manager.getBackStackEntryAt(manager.getBackStackEntryCount() - 1).getName(), "favorites")) {
+                    manager.popBackStackImmediate();
+                }
+            }
+            manager.beginTransaction().replace(R.id.layout_for_fragments, FavoritesFragment).addToBackStack("favorites").commit();
         } else if (id == R.id.nav_messages) {
             Intent intent = new Intent(NaviActivity.this, MessageFragment.class);
             startActivity(intent);

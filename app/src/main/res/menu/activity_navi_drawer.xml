@@ -14,6 +14,11 @@
             android:title="My Ideas"
             tools:ignore="HardcodedText" />
         <item
+            android:id="@+id/nav_favorites"
+            android:icon="@drawable/ic_star_black_24dp"
+            android:title="Favorite Ideas"
+            tools:ignore="HardcodedText" />
+        <item
             android:id="@+id/nav_shareidea"
             android:icon="@drawable/ic_lightbulb_outline_black_24dp"
             android:title="Share Idea"

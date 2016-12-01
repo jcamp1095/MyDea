@@ -1,5 +1,6 @@
 package com.tj.mydea;
 
+
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -20,8 +21,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -29,7 +33,11 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
-public class DiscoverFragment extends Fragment {
+public class FavoritesFragment extends Fragment {
+    public FavoritesFragment() {
+        // Required empty public constructor
+    }
+
     // Initiating lists for information included with each idea
     private final List<String> ideaNames = new ArrayList<>();
     private final List<String> descriptions = new ArrayList<>();
@@ -43,18 +51,10 @@ public class DiscoverFragment extends Fragment {
     private final ArrayList<Idea> ideas = new ArrayList<>();
     private RecyclerView discoverRecyclerView;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
-    @SuppressWarnings("unused")
-    public DiscoverFragment() {
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         try {
-            new GetIdeas().execute("https://mydea-db.herokuapp.com/ideas").get();
+            new FavoritesFragment.GetIdeas().execute("https://mydea-db.herokuapp.com/favorites?user_id=").get();
         }
         catch (ExecutionException | InterruptedException ex) {
             ex.printStackTrace();
@@ -73,15 +73,13 @@ public class DiscoverFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         discoverRecyclerView.setLayoutManager(layoutManager);
         discoverRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(getResources()));
-        updateUI();
+        //updateUI();
         return view;
     }
 
     private void updateUI() {
-        ideaAdapter adapter = new ideaAdapter(ideas);
-        if (discoverRecyclerView != null) {
-            discoverRecyclerView.setAdapter(adapter);
-        }
+        FavoritesFragment.ideaAdapter adapter = new FavoritesFragment.ideaAdapter(ideas);
+        discoverRecyclerView.setAdapter(adapter);
     }
 
 
@@ -133,13 +131,13 @@ public class DiscoverFragment extends Fragment {
             descriptionTextView.setText(id.getdescription());
             dateTextView.setText("Posted: " + id.getdate());
             categoryTextView.setText(id.getcategory());
-            likeTextView.setText(Integer.toString(id.getlike()));
+            likeTextView.setText("Likes: " + Integer.toString(id.getlike()));
             authoridTextView.setText(id.getauthor_id());
             commentsTextView.setText(id.getcomments());
         }
     }
 
-    private class ideaAdapter extends RecyclerView.Adapter<ideaHolder> {
+    private class ideaAdapter extends RecyclerView.Adapter<FavoritesFragment.ideaHolder> {
         private final ArrayList<Idea> mideas;
 
         public ideaAdapter(ArrayList<Idea> ideas) {
@@ -147,15 +145,14 @@ public class DiscoverFragment extends Fragment {
         }
 
         @Override
-        public ideaHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public FavoritesFragment.ideaHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
             View view = layoutInflater.inflate(R.layout.discover_list_item_1, parent, false);
-            return new ideaHolder(view);
+            return new FavoritesFragment.ideaHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(ideaHolder holder, int position) {
-            NaviActivity activity = (NaviActivity) getActivity();
+        public void onBindViewHolder(FavoritesFragment.ideaHolder holder, int position) {
             Idea id = mideas.get(position);
             holder.bindData(id);
             final View holder_v = holder.itemView;
@@ -164,22 +161,26 @@ public class DiscoverFragment extends Fragment {
             try {
                 object.put("idea_name", id.getideaName());
                 object.put("user_name", id.getauthor());
-                object.put("poster_id", activity.get_user_id());
-
                 final ImageButton like_button = (ImageButton) holder_v.findViewById(R.id.like_it);
                 like_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Post post = new Post();
-                        post.send(object, "/likes");
+                        postLike(object);
                         TextView likeTextView = (TextView) holder_v.findViewById(R.id.textview_like);
                         String likes = likeTextView.getText().toString();
-                        int like_int = Integer.parseInt(likes);
-                        likeTextView.setText(Integer.toString(like_int + 1));
+                        int like_int = 0;
+                        for (int i  = 0; i < likes.length(); i++){
+                            if (likes.charAt(i) == ' '){
+                                like_int = Integer.parseInt(likes.substring(i+1));
+                                break;
+                            }
+                        }
+                        likeTextView.setText("Likes: " + Integer.toString(like_int + 1));
                     }
                 });
             }
-            catch (JSONException e) {Log.v("LoginActivity", e.toString());}
+            catch (JSONException e) {
+                Log.v("LoginActivity", e.toString());}
         }
 
         @Override
@@ -187,6 +188,24 @@ public class DiscoverFragment extends Fragment {
             return mideas.size();
         }
     }
+
+
+    /*@Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnListFragmentInteractionListener) {
+            mListener = (OnListFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnListFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }*/
 
     private static JSONArray requestWebService(String serviceUrl) {
         disableConnectionReuseIfNecessary();
@@ -236,6 +255,8 @@ public class DiscoverFragment extends Fragment {
     }
 
     private static String getResponseText(InputStream inStream) {
+        // very nice trick from
+        // http://weblogs.java.net/blog/pat/archive/2004/10/stupid_scanner_1.html
         return new Scanner(inStream).useDelimiter("\\A").next();
     }
 
@@ -251,10 +272,55 @@ public class DiscoverFragment extends Fragment {
         return counter;
     }
 
+    public void postLike(final JSONObject object) {
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    String query = "https://mydea-db.herokuapp.com/likes";
+
+                    URL url = new URL(query);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setConnectTimeout(5000);
+                    conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+                    conn.setRequestMethod("POST");
+
+                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                    wr.write(object.toString());
+                    wr.flush();
+
+                    if (conn.getResponseCode() != 200) {
+                        throw new RuntimeException("Failed : HTTP error code : "
+                                + conn.getResponseCode());
+                    }
+
+                    BufferedReader br = new BufferedReader(new InputStreamReader(
+                            (conn.getInputStream())));
+
+                    String output;
+                    System.out.println("Output from Server .... \n");
+                    while ((output = br.readLine()) != null) {
+                        System.out.println(output);
+                    }
+
+                    conn.disconnect();
+
+                }
+                catch (IOException e) {
+                    Log.v("LoginActivity", e.toString());}
+            }
+        });
+
+        t.start();
+    }
+
 
     private class GetIdeas extends AsyncTask<String, Void, JSONArray> {
         protected JSONArray doInBackground(String... strings) {
-            return requestWebService(strings[0]);
+            NaviActivity activity = (NaviActivity) getActivity();
+            String user_id = activity.get_user_id();
+            return requestWebService(strings[0] + user_id);
         }
         protected void onPostExecute(JSONArray result) {
             int num_entries = get_num_objects(result);
@@ -300,3 +366,4 @@ public class DiscoverFragment extends Fragment {
         }
     }
 }
+
