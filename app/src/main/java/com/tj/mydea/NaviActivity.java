@@ -2,7 +2,6 @@ package com.tj.mydea;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -11,8 +10,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.facebook.login.LoginManager;
@@ -25,18 +24,6 @@ public class NaviActivity extends AppCompatActivity
     private String user_id = "";
     private String user_name = "";
     private String email = "";
-    //String imageURI = "";
-
-    private final Runnable mUpdateUITimerTask = new Runnable() {
-        public void run() {
-            TextView nav_username = (TextView) findViewById(R.id.nav_username);
-            TextView nav_email = (TextView) findViewById(R.id.nav_email);
-            nav_username.setText(user_name);
-            nav_email.setText(email);
-
-        }
-    };
-    private final Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +35,6 @@ public class NaviActivity extends AppCompatActivity
             user_id = (String) b.get("user_id");
             user_name = (String) b.get("user_name");
             email = (String) b.get("email");
-           // imageURI = (String) b.get("imageURI");
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -62,7 +48,12 @@ public class NaviActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        mHandler.postDelayed(mUpdateUITimerTask, 2 * 1000);
+        View header=navigationView.getHeaderView(0);
+        TextView nav_username = (TextView) header.findViewById(R.id.nav_username);
+        TextView nav_email = (TextView) header.findViewById(R.id.nav_email);
+        nav_username.setText(user_name);
+        nav_email.setText(email);
+
         DiscoverFragment DiscoverFragment = new DiscoverFragment();
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction().replace(R.id.layout_for_fragments, DiscoverFragment).addToBackStack("discover").commit();
